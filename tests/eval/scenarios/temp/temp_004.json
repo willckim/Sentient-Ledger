@@ -1,0 +1,71 @@
+{
+  "scenario_id": "TEMP-004",
+  "name": "Wrong period offset - depreciation recorded a full year before acquisition",
+  "description": "Asset $100,000 acquired 2024-01-01 with 120-month useful life. Schedule erroneously starts at 2023-01 (12 months before acquisition). All 12 schedule entries fall in 2023, meaning all expected 2024 periods are missing from the schedule.",
+  "category": "TEMP",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-TEMP-004",
+        "description": "IT Infrastructure - Wrong Period Offset",
+        "acquisition_date": "2024-01-01",
+        "cost": "100000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-01", "amount": "833.33", "accumulated": "833.33", "net_book_value": "99166.67"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-02", "amount": "833.33", "accumulated": "1666.66", "net_book_value": "98333.34"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-03", "amount": "833.33", "accumulated": "2499.99", "net_book_value": "97500.01"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-04", "amount": "833.33", "accumulated": "3333.32", "net_book_value": "96666.68"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-05", "amount": "833.33", "accumulated": "4166.65", "net_book_value": "95833.35"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-06", "amount": "833.33", "accumulated": "4999.98", "net_book_value": "95000.02"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-07", "amount": "833.33", "accumulated": "5833.31", "net_book_value": "94166.69"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-08", "amount": "833.33", "accumulated": "6666.64", "net_book_value": "93333.36"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-09", "amount": "833.33", "accumulated": "7499.97", "net_book_value": "92500.03"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-10", "amount": "833.33", "accumulated": "8333.30", "net_book_value": "91666.70"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-11", "amount": "833.33", "accumulated": "9166.63", "net_book_value": "90833.37"},
+      {"asset_id": "ASSET-TEMP-004", "period": "2023-12", "amount": "833.33", "accumulated": "9999.96", "net_book_value": "90000.04"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-TEMP-004",
+        "error_type": "MISSING_DEPRECIATION_ENTRY",
+        "description": "All schedule entries are dated in 2023, one full year before the acquisition date of 2024-01-01. Expected periods 2024-01 through 2024-12 are entirely absent. Depreciation was recorded before the asset was acquired.",
+        "affected_asset_ids": ["ASSET-TEMP-004"],
+        "affected_periods": ["2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06", "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"],
+        "magnitude": "9999.96"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-TEMP-004",
+        "error_type": "MISSING_DEPRECIATION_ENTRY",
+        "affected_asset_ids": ["ASSET-TEMP-004"],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-002"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

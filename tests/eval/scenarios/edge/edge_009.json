@@ -1,0 +1,166 @@
+{
+  "scenario_id": "EDGE-009",
+  "name": "SYD method applied as straight-line - wrong depreciation method used",
+  "description": "Asset $50,000 cost, $5,000 salvage, 84 months (7 years), SYD, FULL_MONTH, acquired 2024-01-01. Base=$45,000. Sum of year digits = 7x8/2 = 28. Year 1 fraction = 7/28 = 0.25. Correct annual Y1 = $11,250, monthly Y1 = $937.50. Schedule erroneously uses straight-line at $535.71/month (45000/84). Wrong method applied.",
+  "category": "EDGE",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "description": "Manufacturing Equipment - Wrong Method Applied",
+        "acquisition_date": "2024-01-01",
+        "cost": "50000.00",
+        "salvage_value": "5000.00",
+        "useful_life_months": 84,
+        "depreciation_method": "SUM_OF_YEARS",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-01",
+        "amount": "535.71",
+        "accumulated": "535.71",
+        "net_book_value": "49464.29"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-02",
+        "amount": "535.71",
+        "accumulated": "1071.42",
+        "net_book_value": "48928.58"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-03",
+        "amount": "535.71",
+        "accumulated": "1607.13",
+        "net_book_value": "48392.87"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-04",
+        "amount": "535.71",
+        "accumulated": "2142.84",
+        "net_book_value": "47857.16"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-05",
+        "amount": "535.71",
+        "accumulated": "2678.55",
+        "net_book_value": "47321.45"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-06",
+        "amount": "535.71",
+        "accumulated": "3214.26",
+        "net_book_value": "46785.74"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-07",
+        "amount": "535.71",
+        "accumulated": "3749.97",
+        "net_book_value": "46250.03"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-08",
+        "amount": "535.71",
+        "accumulated": "4285.68",
+        "net_book_value": "45714.32"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-09",
+        "amount": "535.71",
+        "accumulated": "4821.39",
+        "net_book_value": "45178.61"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-10",
+        "amount": "535.71",
+        "accumulated": "5357.10",
+        "net_book_value": "44642.90"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-11",
+        "amount": "535.71",
+        "accumulated": "5892.81",
+        "net_book_value": "44107.19"
+      },
+      {
+        "asset_id": "ASSET-EDGE-009",
+        "period": "2024-12",
+        "amount": "535.71",
+        "accumulated": "6428.52",
+        "net_book_value": "43571.48"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-EDGE-009",
+        "error_type": "RECLASSIFICATION_ANOMALY",
+        "description": "Asset is registered as SUM_OF_YEARS_DIGITS but schedule applies straight-line depreciation. SYD Year 1 monthly should be $937.50 (base $45,000 x 7/28 / 12). Schedule shows $535.71/month (SL: $45,000 / 84). Year 1 understatement = 12 x ($937.50 - $535.71) = $4,821.48.",
+        "affected_asset_ids": [
+          "ASSET-EDGE-009"
+        ],
+        "affected_periods": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2024-09",
+          "2024-10",
+          "2024-11",
+          "2024-12"
+        ],
+        "magnitude": "4821.48"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-EDGE-009",
+        "error_type": "RECLASSIFICATION_ANOMALY",
+        "affected_asset_ids": [
+          "ASSET-EDGE-009"
+        ],
+        "min_confidence": 0.85,
+        "pattern_id": null
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": [
+      {
+        "error_id": "ERR-EDGE-009",
+        "expected_trigger_reason": "RECLASSIFICATION_ANOMALY",
+        "expected_self_healable": true
+      }
+    ]
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

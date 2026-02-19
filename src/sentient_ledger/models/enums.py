@@ -1,0 +1,137 @@
+"""Enumerations for the Sentient Ledger state machine."""
+
+from enum import Enum
+
+
+class LedgerState(str, Enum):
+    INGEST = "INGEST"
+    COMPLIANCE_SCAN = "COMPLIANCE_SCAN"
+    ASSET_INSPECTION = "ASSET_INSPECTION"
+    ANALYSIS = "ANALYSIS"
+    PROPOSAL = "PROPOSAL"
+    SIGN_OFF = "SIGN_OFF"
+    COMMIT = "COMMIT"
+    AUDIT_LOG = "AUDIT_LOG"
+    ERROR_QUARANTINE = "ERROR_QUARANTINE"
+    SELF_HEAL = "SELF_HEAL"
+
+
+class AgentId(str, Enum):
+    COMPLIANCE_SPECIALIST = "COMPLIANCE_SPECIALIST"
+    ASSET_WARDEN = "ASSET_WARDEN"
+    FINANCIAL_ANALYST = "FINANCIAL_ANALYST"
+    PROCESS_MANAGER = "PROCESS_MANAGER"
+    SYSTEM = "SYSTEM"
+
+
+class AssetTriggerReason(str, Enum):
+    DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD = "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD"
+    MISSING_DEPRECIATION_ENTRY = "MISSING_DEPRECIATION_ENTRY"
+    DISPOSAL_WITHOUT_RETIREMENT = "DISPOSAL_WITHOUT_RETIREMENT"
+    IMPAIRMENT_INDICATOR_DETECTED = "IMPAIRMENT_INDICATOR_DETECTED"
+    USEFUL_LIFE_MISMATCH = "USEFUL_LIFE_MISMATCH"
+    RECLASSIFICATION_ANOMALY = "RECLASSIFICATION_ANOMALY"
+
+
+class AuthorityLevel(str, Enum):
+    L1_STAFF = "L1_STAFF"
+    L2_SENIOR = "L2_SENIOR"
+    L3_MANAGER = "L3_MANAGER"
+    L4_CONTROLLER = "L4_CONTROLLER"
+
+
+AUTHORITY_RANK = {
+    AuthorityLevel.L1_STAFF: 1,
+    AuthorityLevel.L2_SENIOR: 2,
+    AuthorityLevel.L3_MANAGER: 3,
+    AuthorityLevel.L4_CONTROLLER: 4,
+}
+
+
+class AccountCategory(str, Enum):
+    ASSET = "ASSET"
+    LIABILITY = "LIABILITY"
+    EQUITY = "EQUITY"
+    REVENUE = "REVENUE"
+    EXPENSE = "EXPENSE"
+
+
+class DepreciationMethod(str, Enum):
+    STRAIGHT_LINE = "STRAIGHT_LINE"
+    DOUBLE_DECLINING = "DOUBLE_DECLINING"
+    SUM_OF_YEARS = "SUM_OF_YEARS"
+    UNITS_OF_PRODUCTION = "UNITS_OF_PRODUCTION"
+    MACRS = "MACRS"
+
+
+class DepreciationConvention(str, Enum):
+    FULL_MONTH = "FULL_MONTH"
+    HALF_MONTH = "HALF_MONTH"
+    MID_MONTH = "MID_MONTH"
+    HALF_YEAR = "HALF_YEAR"
+    MID_QUARTER = "MID_QUARTER"
+
+
+class AssetStatus(str, Enum):
+    ACTIVE = "ACTIVE"
+    FULLY_DEPRECIATED = "FULLY_DEPRECIATED"
+    DISPOSED = "DISPOSED"
+    IMPAIRED = "IMPAIRED"
+    SUSPENDED = "SUSPENDED"
+
+
+class Priority(str, Enum):
+    CRITICAL = "CRITICAL"
+    HIGH = "HIGH"
+    MEDIUM = "MEDIUM"
+
+
+class ProposalStatus(str, Enum):
+    PENDING_REVIEW = "PENDING_REVIEW"
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+    ESCALATED = "ESCALATED"
+    EXPIRED = "EXPIRED"
+
+
+class AuditEventType(str, Enum):
+    CREATED = "CREATED"
+    VIEWED = "VIEWED"
+    APPROVED = "APPROVED"
+    REJECTED = "REJECTED"
+    ESCALATED = "ESCALATED"
+    EXPIRED = "EXPIRED"
+    COMMITTED = "COMMITTED"
+
+
+class ActorType(str, Enum):
+    AGENT = "AGENT"
+    HUMAN = "HUMAN"
+
+
+class SignOffDecision(str, Enum):
+    APPROVE = "APPROVE"
+    REJECT = "REJECT"
+    ESCALATE = "ESCALATE"
+
+
+class CommitResult(str, Enum):
+    ACK = "ACK"
+    NACK = "NACK"
+
+
+class SelfHealPatternId(str, Enum):
+    AW_001 = "AW-001"
+    AW_002 = "AW-002"
+    AW_003 = "AW-003"
+    AW_004 = "AW-004"
+    AW_005 = "AW-005"
+
+
+class ScenarioCategory(str, Enum):
+    CALC = "CALC"
+    TEMP = "TEMP"
+    PLCY = "PLCY"
+    LIFE = "LIFE"
+    MULT = "MULT"
+    EDGE = "EDGE"

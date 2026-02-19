@@ -1,0 +1,79 @@
+{
+  "scenario_id": "MULT-002",
+  "name": "GL balance mismatch - depreciation expense overstated in ledger",
+  "description": "Single entity ENTITY-001 with one asset A-MULT-002: $120,000 cost, $0 salvage, 120 months SL. Correct monthly depreciation is $1,000. 12 schedule entries for 2024 are correct at $1,000/month (total $12,000). However, GL balance for depreciation account 5100 period 2024-12 shows $15,000 instead of the correct $12,000. Detect as DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD via GL check.",
+  "category": "MULT",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-MULT-002",
+        "description": "Machinery - GL Mismatch Test",
+        "acquisition_date": "2024-01-01",
+        "cost": "120000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-MULT-002", "period": "2024-01", "amount": "1000.00", "accumulated": "1000.00", "net_book_value": "119000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-02", "amount": "1000.00", "accumulated": "2000.00", "net_book_value": "118000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-03", "amount": "1000.00", "accumulated": "3000.00", "net_book_value": "117000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-04", "amount": "1000.00", "accumulated": "4000.00", "net_book_value": "116000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-05", "amount": "1000.00", "accumulated": "5000.00", "net_book_value": "115000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-06", "amount": "1000.00", "accumulated": "6000.00", "net_book_value": "114000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-07", "amount": "1000.00", "accumulated": "7000.00", "net_book_value": "113000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-08", "amount": "1000.00", "accumulated": "8000.00", "net_book_value": "112000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-09", "amount": "1000.00", "accumulated": "9000.00", "net_book_value": "111000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-10", "amount": "1000.00", "accumulated": "10000.00", "net_book_value": "110000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-11", "amount": "1000.00", "accumulated": "11000.00", "net_book_value": "109000.00"},
+      {"asset_id": "A-MULT-002", "period": "2024-12", "amount": "1000.00", "accumulated": "12000.00", "net_book_value": "108000.00"}
+    ],
+    "gl_balances": [
+      {
+        "account_code": "5100",
+        "account_name": "Depreciation Expense",
+        "period": "2024-12",
+        "balance": "15000.00",
+        "entity_id": "ENTITY-001"
+      }
+    ],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-MULT-002",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "GL balance for account 5100 period 2024-12 shows $15,000 but schedule total for ENTITY-001 in 2024-12 is $1,000. The GL balance does not match the depreciation schedule entry for the period.",
+        "affected_asset_ids": ["A-MULT-002"],
+        "affected_periods": ["2024-12"],
+        "magnitude": "14000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-MULT-002",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": ["A-MULT-002"],
+        "min_confidence": 0.8,
+        "pattern_id": null
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

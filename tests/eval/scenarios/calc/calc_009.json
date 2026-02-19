@@ -1,0 +1,156 @@
+{
+  "scenario_id": "CALC-009",
+  "name": "Negative depreciation entries - reversal errors",
+  "description": "Asset $100,000 cost, $10,000 salvage, 60 months, SL. Correct monthly = $1,500. Schedule shows 10 correct entries at $1,500 but 2 entries with -$1,500 (erroneous reversals). 12-period total = $12,000 vs expected $18,000.",
+  "category": "CALC",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-CALC-009",
+        "description": "Laboratory Equipment - Negative Entry Error",
+        "acquisition_date": "2024-01-01",
+        "cost": "100000.00",
+        "salvage_value": "10000.00",
+        "useful_life_months": 60,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-01",
+        "amount": "1500.00",
+        "accumulated": "1500.00",
+        "net_book_value": "98500.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-02",
+        "amount": "1500.00",
+        "accumulated": "3000.00",
+        "net_book_value": "97000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-03",
+        "amount": "1500.00",
+        "accumulated": "4500.00",
+        "net_book_value": "95500.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-04",
+        "amount": "1500.00",
+        "accumulated": "6000.00",
+        "net_book_value": "94000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-05",
+        "amount": "-1500.00",
+        "accumulated": "4500.00",
+        "net_book_value": "95500.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-06",
+        "amount": "1500.00",
+        "accumulated": "6000.00",
+        "net_book_value": "94000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-07",
+        "amount": "1500.00",
+        "accumulated": "7500.00",
+        "net_book_value": "92500.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-08",
+        "amount": "1500.00",
+        "accumulated": "9000.00",
+        "net_book_value": "91000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-09",
+        "amount": "-1500.00",
+        "accumulated": "7500.00",
+        "net_book_value": "92500.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-10",
+        "amount": "1500.00",
+        "accumulated": "9000.00",
+        "net_book_value": "91000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-11",
+        "amount": "1500.00",
+        "accumulated": "10500.00",
+        "net_book_value": "89500.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-009",
+        "period": "2024-12",
+        "amount": "1500.00",
+        "accumulated": "12000.00",
+        "net_book_value": "88000.00"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-CALC-009",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Two depreciation entries (2024-05, 2024-09) show negative amounts of -$1,500 instead of positive $1,500. These erroneous reversals reduce the 12-month total from expected $18,000 to $12,000, a $6,000 variance.",
+        "affected_asset_ids": [
+          "ASSET-CALC-009"
+        ],
+        "affected_periods": [
+          "2024-05",
+          "2024-09"
+        ],
+        "magnitude": "6000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-CALC-009",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": [
+          "ASSET-CALC-009"
+        ],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": [
+      {
+        "error_id": "ERR-CALC-009",
+        "expected_trigger_reason": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "expected_self_healable": true
+      }
+    ]
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

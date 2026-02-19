@@ -1,0 +1,71 @@
+{
+  "scenario_id": "TEMP-007",
+  "name": "Convention not applied to first period - HALF_MONTH ignored",
+  "description": "Asset $120,000 acquired 2024-01-15 with HALF_MONTH convention and 120-month useful life. First period should be $500 (half of $1,000) but schedule shows $1,000. Subsequent periods are correctly $1,000 each.",
+  "category": "TEMP",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-TEMP-007",
+        "description": "Leasehold Improvements - Convention Error",
+        "acquisition_date": "2024-01-15",
+        "cost": "120000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "HALF_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-01", "amount": "1000.00", "accumulated": "1000.00", "net_book_value": "119000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-02", "amount": "1000.00", "accumulated": "2000.00", "net_book_value": "118000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-03", "amount": "1000.00", "accumulated": "3000.00", "net_book_value": "117000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-04", "amount": "1000.00", "accumulated": "4000.00", "net_book_value": "116000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-05", "amount": "1000.00", "accumulated": "5000.00", "net_book_value": "115000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-06", "amount": "1000.00", "accumulated": "6000.00", "net_book_value": "114000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-07", "amount": "1000.00", "accumulated": "7000.00", "net_book_value": "113000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-08", "amount": "1000.00", "accumulated": "8000.00", "net_book_value": "112000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-09", "amount": "1000.00", "accumulated": "9000.00", "net_book_value": "111000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-10", "amount": "1000.00", "accumulated": "10000.00", "net_book_value": "110000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-11", "amount": "1000.00", "accumulated": "11000.00", "net_book_value": "109000.00"},
+      {"asset_id": "ASSET-TEMP-007", "period": "2024-12", "amount": "1000.00", "accumulated": "12000.00", "net_book_value": "108000.00"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-TEMP-007",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "HALF_MONTH convention not applied. Asset acquired 2024-01-15 should have first period depreciation of $500 (half month) but $1,000 was recorded. Overstated by $500 in the first period.",
+        "affected_asset_ids": ["ASSET-TEMP-007"],
+        "affected_periods": ["2024-01"],
+        "magnitude": "500.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-TEMP-007",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": ["ASSET-TEMP-007"],
+        "min_confidence": 0.8,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

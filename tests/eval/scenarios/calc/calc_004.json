@@ -1,0 +1,166 @@
+{
+  "scenario_id": "CALC-004",
+  "name": "DDB calculation error - straight-line rate used instead of double-declining",
+  "description": "Asset $50,000 cost, $5,000 salvage, 60 months (5 years), DDB, FULL_MONTH. DDB annual rate = 2/5 = 40%, monthly rate = 3.333%. First month correct DDB = $50,000 * 40% / 12 = $1,666.67. Schedule erroneously uses SL rate: ($50,000 - $5,000) / 60 = $750.00/month.",
+  "category": "CALC",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-CALC-004",
+        "description": "Vehicle Fleet - DDB Method",
+        "acquisition_date": "2024-01-01",
+        "cost": "50000.00",
+        "salvage_value": "5000.00",
+        "useful_life_months": 60,
+        "depreciation_method": "DOUBLE_DECLINING",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-01",
+        "amount": "750.00",
+        "accumulated": "750.00",
+        "net_book_value": "49250.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-02",
+        "amount": "750.00",
+        "accumulated": "1500.00",
+        "net_book_value": "48500.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-03",
+        "amount": "750.00",
+        "accumulated": "2250.00",
+        "net_book_value": "47750.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-04",
+        "amount": "750.00",
+        "accumulated": "3000.00",
+        "net_book_value": "47000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-05",
+        "amount": "750.00",
+        "accumulated": "3750.00",
+        "net_book_value": "46250.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-06",
+        "amount": "750.00",
+        "accumulated": "4500.00",
+        "net_book_value": "45500.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-07",
+        "amount": "750.00",
+        "accumulated": "5250.00",
+        "net_book_value": "44750.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-08",
+        "amount": "750.00",
+        "accumulated": "6000.00",
+        "net_book_value": "44000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-09",
+        "amount": "750.00",
+        "accumulated": "6750.00",
+        "net_book_value": "43250.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-10",
+        "amount": "750.00",
+        "accumulated": "7500.00",
+        "net_book_value": "42500.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-11",
+        "amount": "750.00",
+        "accumulated": "8250.00",
+        "net_book_value": "41750.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-004",
+        "period": "2024-12",
+        "amount": "750.00",
+        "accumulated": "9000.00",
+        "net_book_value": "41000.00"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-CALC-004",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "DDB method should yield $1,666.67/month in the first month (40% annual rate on $50,000 NBV) with declining amounts each month. Schedule incorrectly uses SL rate of $750.00/month. Year 1 total should be approximately $16,314 under DDB but shows $9,000 under erroneous SL.",
+        "affected_asset_ids": [
+          "ASSET-CALC-004"
+        ],
+        "affected_periods": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2024-09",
+          "2024-10",
+          "2024-11",
+          "2024-12"
+        ],
+        "magnitude": "7314.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-CALC-004",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": [
+          "ASSET-CALC-004"
+        ],
+        "min_confidence": 0.85,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": [
+      {
+        "error_id": "ERR-CALC-004",
+        "expected_trigger_reason": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "expected_self_healable": true
+      }
+    ]
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "5.00"
+  },
+  "metadata": {}
+}

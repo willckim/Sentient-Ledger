@@ -1,0 +1,278 @@
+{
+  "scenario_id": "MULT-006",
+  "name": "Double-counted asset across entities - same asset_id in two registers",
+  "description": "Asset A-MULT-006 appears in both ENTITY-001 and ENTITY-002 asset registers (two ScenarioAssetRecord entries with same asset_id but different entity_id). $200,000 cost, $0 salvage, 120 months SL = $1,666.67/month. Schedule has 24 total entries (12 per entity context, duplicated per period for the same asset_id). Detect as RECLASSIFICATION_ANOMALY (asset claimed by multiple entities).",
+  "category": "MULT",
+  "severity": "CRITICAL",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-MULT-006",
+        "description": "Heavy Machinery - Entity 1",
+        "acquisition_date": "2024-01-01",
+        "cost": "200000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "description": "Heavy Machinery - Entity 2",
+        "acquisition_date": "2024-01-01",
+        "cost": "200000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-002",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-01",
+        "amount": "1666.67",
+        "accumulated": "1666.67",
+        "net_book_value": "198333.33"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-02",
+        "amount": "1666.67",
+        "accumulated": "3333.34",
+        "net_book_value": "196666.66"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-03",
+        "amount": "1666.67",
+        "accumulated": "5000.01",
+        "net_book_value": "194999.99"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-04",
+        "amount": "1666.67",
+        "accumulated": "6666.68",
+        "net_book_value": "193333.32"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-05",
+        "amount": "1666.67",
+        "accumulated": "8333.35",
+        "net_book_value": "191666.65"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-06",
+        "amount": "1666.67",
+        "accumulated": "10000.02",
+        "net_book_value": "189999.98"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-07",
+        "amount": "1666.67",
+        "accumulated": "11666.69",
+        "net_book_value": "188333.31"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-08",
+        "amount": "1666.67",
+        "accumulated": "13333.36",
+        "net_book_value": "186666.64"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-09",
+        "amount": "1666.67",
+        "accumulated": "15000.03",
+        "net_book_value": "184999.97"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-10",
+        "amount": "1666.67",
+        "accumulated": "16666.70",
+        "net_book_value": "183333.30"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-11",
+        "amount": "1666.67",
+        "accumulated": "18333.37",
+        "net_book_value": "181666.63"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-12",
+        "amount": "1666.67",
+        "accumulated": "20000.04",
+        "net_book_value": "179999.96"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-01",
+        "amount": "1666.67",
+        "accumulated": "1666.67",
+        "net_book_value": "198333.33"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-02",
+        "amount": "1666.67",
+        "accumulated": "3333.34",
+        "net_book_value": "196666.66"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-03",
+        "amount": "1666.67",
+        "accumulated": "5000.01",
+        "net_book_value": "194999.99"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-04",
+        "amount": "1666.67",
+        "accumulated": "6666.68",
+        "net_book_value": "193333.32"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-05",
+        "amount": "1666.67",
+        "accumulated": "8333.35",
+        "net_book_value": "191666.65"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-06",
+        "amount": "1666.67",
+        "accumulated": "10000.02",
+        "net_book_value": "189999.98"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-07",
+        "amount": "1666.67",
+        "accumulated": "11666.69",
+        "net_book_value": "188333.31"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-08",
+        "amount": "1666.67",
+        "accumulated": "13333.36",
+        "net_book_value": "186666.64"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-09",
+        "amount": "1666.67",
+        "accumulated": "15000.03",
+        "net_book_value": "184999.97"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-10",
+        "amount": "1666.67",
+        "accumulated": "16666.70",
+        "net_book_value": "183333.30"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-11",
+        "amount": "1666.67",
+        "accumulated": "18333.37",
+        "net_book_value": "181666.63"
+      },
+      {
+        "asset_id": "A-MULT-006",
+        "period": "2024-12",
+        "amount": "1666.67",
+        "accumulated": "20000.04",
+        "net_book_value": "179999.96"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-MULT-006",
+        "error_type": "RECLASSIFICATION_ANOMALY",
+        "description": "Asset A-MULT-006 is registered in both ENTITY-001 and ENTITY-002 asset registers, resulting in double-counted depreciation. Total depreciation of $40,000.08 is recorded (24 entries) instead of the correct $20,000.04 for a single entity.",
+        "affected_asset_ids": [
+          "A-MULT-006"
+        ],
+        "affected_periods": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2024-09",
+          "2024-10",
+          "2024-11",
+          "2024-12"
+        ],
+        "magnitude": "20000.04"
+      },
+      {
+        "error_id": "ERR-MULT-006b",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Duplicate entries from double-counted asset",
+        "affected_asset_ids": [
+          "A-MULT-006"
+        ],
+        "affected_periods": [],
+        "magnitude": null
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-MULT-006",
+        "error_type": "RECLASSIFICATION_ANOMALY",
+        "affected_asset_ids": [
+          "A-MULT-006"
+        ],
+        "min_confidence": 0.9,
+        "pattern_id": null
+      },
+      {
+        "error_id": "ERR-MULT-006b",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": [
+          "A-MULT-006"
+        ],
+        "min_confidence": 0.5,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

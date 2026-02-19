@@ -1,0 +1,166 @@
+{
+  "scenario_id": "EDGE-005",
+  "name": "Salvage exceeds cost - negative depreciable base erroneously depreciated",
+  "description": "Asset $50,000 cost, $60,000 salvage (salvage exceeds cost), 60 months, SL, FULL_MONTH, acquired 2024-01-01. Depreciable base = -$10,000 (negative). No depreciation should be recorded. Schedule erroneously shows $833.33/month as if salvage were $0 (base = $50,000). All 12 entries are erroneous.",
+  "category": "EDGE",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "description": "Collectible Art - Salvage Exceeds Cost",
+        "acquisition_date": "2024-01-01",
+        "cost": "50000.00",
+        "salvage_value": "60000.00",
+        "useful_life_months": 60,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-01",
+        "amount": "833.33",
+        "accumulated": "833.33",
+        "net_book_value": "49166.67"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-02",
+        "amount": "833.33",
+        "accumulated": "1666.66",
+        "net_book_value": "48333.34"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-03",
+        "amount": "833.33",
+        "accumulated": "2499.99",
+        "net_book_value": "47500.01"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-04",
+        "amount": "833.33",
+        "accumulated": "3333.32",
+        "net_book_value": "46666.68"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-05",
+        "amount": "833.33",
+        "accumulated": "4166.65",
+        "net_book_value": "45833.35"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-06",
+        "amount": "833.33",
+        "accumulated": "4999.98",
+        "net_book_value": "45000.02"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-07",
+        "amount": "833.33",
+        "accumulated": "5833.31",
+        "net_book_value": "44166.69"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-08",
+        "amount": "833.33",
+        "accumulated": "6666.64",
+        "net_book_value": "43333.36"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-09",
+        "amount": "833.33",
+        "accumulated": "7499.97",
+        "net_book_value": "42500.03"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-10",
+        "amount": "833.33",
+        "accumulated": "8333.30",
+        "net_book_value": "41666.70"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-11",
+        "amount": "833.33",
+        "accumulated": "9166.63",
+        "net_book_value": "40833.37"
+      },
+      {
+        "asset_id": "ASSET-EDGE-005",
+        "period": "2024-12",
+        "amount": "833.33",
+        "accumulated": "9999.96",
+        "net_book_value": "40000.04"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-EDGE-005",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Salvage value ($60,000) exceeds cost ($50,000), resulting in a negative depreciable base. No depreciation should be recorded, but schedule shows $833.33/month as if using full cost as base. Total erroneous depreciation over 12 periods = $9,999.96.",
+        "affected_asset_ids": [
+          "ASSET-EDGE-005"
+        ],
+        "affected_periods": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2024-09",
+          "2024-10",
+          "2024-11",
+          "2024-12"
+        ],
+        "magnitude": "9999.96"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-EDGE-005",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": [
+          "ASSET-EDGE-005"
+        ],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": [
+      {
+        "error_id": "ERR-EDGE-005",
+        "expected_trigger_reason": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "expected_self_healable": true
+      }
+    ]
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

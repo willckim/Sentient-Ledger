@@ -1,0 +1,160 @@
+{
+  "scenario_id": "PLCY-002",
+  "name": "Wrong useful life 120 to 60 months - overdepreciation",
+  "description": "Asset register specifies 120-month useful life but depreciation schedule uses 60 months. Asset $120,000, $0 salvage, straight-line, FULL_MONTH, acquired 2024-01-01. Correct monthly = $120,000/120 = $1,000. Schedule shows $2,000/mo (60-month rate), overstating depreciation by 100%.",
+  "category": "PLCY",
+  "severity": "CRITICAL",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-PLCY-002",
+        "description": "Office Furniture - Wrong Useful Life (120 stated, 60 applied)",
+        "acquisition_date": "2024-01-01",
+        "cost": "120000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-01",
+        "amount": "2000.00",
+        "accumulated": "2000.00",
+        "net_book_value": "118000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-02",
+        "amount": "2000.00",
+        "accumulated": "4000.00",
+        "net_book_value": "116000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-03",
+        "amount": "2000.00",
+        "accumulated": "6000.00",
+        "net_book_value": "114000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-04",
+        "amount": "2000.00",
+        "accumulated": "8000.00",
+        "net_book_value": "112000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-05",
+        "amount": "2000.00",
+        "accumulated": "10000.00",
+        "net_book_value": "110000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-06",
+        "amount": "2000.00",
+        "accumulated": "12000.00",
+        "net_book_value": "108000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-07",
+        "amount": "2000.00",
+        "accumulated": "14000.00",
+        "net_book_value": "106000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-08",
+        "amount": "2000.00",
+        "accumulated": "16000.00",
+        "net_book_value": "104000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-09",
+        "amount": "2000.00",
+        "accumulated": "18000.00",
+        "net_book_value": "102000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-10",
+        "amount": "2000.00",
+        "accumulated": "20000.00",
+        "net_book_value": "100000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-11",
+        "amount": "2000.00",
+        "accumulated": "22000.00",
+        "net_book_value": "98000.00"
+      },
+      {
+        "asset_id": "A-PLCY-002",
+        "period": "2024-12",
+        "amount": "2000.00",
+        "accumulated": "24000.00",
+        "net_book_value": "96000.00"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-PLCY-002",
+        "error_type": "USEFUL_LIFE_MISMATCH",
+        "description": "Depreciation schedule uses 60-month useful life instead of the 120-month life specified in the asset register. Monthly depreciation is $2,000 instead of the correct $1,000, resulting in systematic overdepreciation of $1,000/month ($12,000 total over 12 periods).",
+        "affected_asset_ids": [
+          "A-PLCY-002"
+        ],
+        "affected_periods": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2024-09",
+          "2024-10",
+          "2024-11",
+          "2024-12"
+        ],
+        "magnitude": "12000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-PLCY-002",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": [
+          "A-PLCY-002"
+        ],
+        "min_confidence": 0.85,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

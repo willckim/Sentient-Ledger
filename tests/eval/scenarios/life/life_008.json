@@ -1,0 +1,41 @@
+{
+  "scenario_id": "LIFE-008",
+  "name": "Asset with zero cost but active - false positive suppression test",
+  "description": "Asset $0 cost, $0 salvage, 60 months, SL, FULL_MONTH, acquired 2024-01-01, status=ACTIVE. No schedule entries because depreciable base is $0. This is a clean scenario testing that the detector does not produce false positives.",
+  "category": "LIFE",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-LIFE-008",
+        "description": "Donated Equipment - Zero cost active asset",
+        "acquisition_date": "2024-01-01",
+        "cost": "0.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 60,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [],
+    "expected_detections": [],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

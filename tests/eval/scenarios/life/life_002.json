@@ -1,0 +1,92 @@
+{
+  "scenario_id": "LIFE-002",
+  "name": "Disposal gain not recognized - depreciation continues past disposal",
+  "description": "Asset $100,000, $0 salvage, 120 months, SL, FULL_MONTH, acquired 2022-01-01. Disposed 2024-06-30 with $40,000 proceeds. After 30 months: accumulated=$25,000, NBV=$75,000. Disposal loss=$35,000. But schedule continues 3 entries past disposal.",
+  "category": "LIFE",
+  "severity": "CRITICAL",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-LIFE-002",
+        "description": "Machinery - Disposal gain not recognized",
+        "acquisition_date": "2022-01-01",
+        "cost": "100000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "DISPOSED",
+        "disposal_date": "2024-06-30",
+        "disposal_proceeds": "40000.00",
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-LIFE-002", "period": "2022-01", "amount": "833.33", "accumulated": "833.33", "net_book_value": "99166.67"},
+      {"asset_id": "A-LIFE-002", "period": "2022-02", "amount": "833.33", "accumulated": "1666.66", "net_book_value": "98333.34"},
+      {"asset_id": "A-LIFE-002", "period": "2022-03", "amount": "833.33", "accumulated": "2499.99", "net_book_value": "97500.01"},
+      {"asset_id": "A-LIFE-002", "period": "2022-04", "amount": "833.33", "accumulated": "3333.32", "net_book_value": "96666.68"},
+      {"asset_id": "A-LIFE-002", "period": "2022-05", "amount": "833.33", "accumulated": "4166.65", "net_book_value": "95833.35"},
+      {"asset_id": "A-LIFE-002", "period": "2022-06", "amount": "833.33", "accumulated": "4999.98", "net_book_value": "95000.02"},
+      {"asset_id": "A-LIFE-002", "period": "2022-07", "amount": "833.33", "accumulated": "5833.31", "net_book_value": "94166.69"},
+      {"asset_id": "A-LIFE-002", "period": "2022-08", "amount": "833.33", "accumulated": "6666.64", "net_book_value": "93333.36"},
+      {"asset_id": "A-LIFE-002", "period": "2022-09", "amount": "833.33", "accumulated": "7499.97", "net_book_value": "92500.03"},
+      {"asset_id": "A-LIFE-002", "period": "2022-10", "amount": "833.33", "accumulated": "8333.30", "net_book_value": "91666.70"},
+      {"asset_id": "A-LIFE-002", "period": "2022-11", "amount": "833.33", "accumulated": "9166.63", "net_book_value": "90833.37"},
+      {"asset_id": "A-LIFE-002", "period": "2022-12", "amount": "833.33", "accumulated": "9999.96", "net_book_value": "90000.04"},
+      {"asset_id": "A-LIFE-002", "period": "2023-01", "amount": "833.33", "accumulated": "10833.29", "net_book_value": "89166.71"},
+      {"asset_id": "A-LIFE-002", "period": "2023-02", "amount": "833.33", "accumulated": "11666.62", "net_book_value": "88333.38"},
+      {"asset_id": "A-LIFE-002", "period": "2023-03", "amount": "833.33", "accumulated": "12499.95", "net_book_value": "87500.05"},
+      {"asset_id": "A-LIFE-002", "period": "2023-04", "amount": "833.33", "accumulated": "13333.28", "net_book_value": "86666.72"},
+      {"asset_id": "A-LIFE-002", "period": "2023-05", "amount": "833.33", "accumulated": "14166.61", "net_book_value": "85833.39"},
+      {"asset_id": "A-LIFE-002", "period": "2023-06", "amount": "833.33", "accumulated": "14999.94", "net_book_value": "85000.06"},
+      {"asset_id": "A-LIFE-002", "period": "2023-07", "amount": "833.33", "accumulated": "15833.27", "net_book_value": "84166.73"},
+      {"asset_id": "A-LIFE-002", "period": "2023-08", "amount": "833.33", "accumulated": "16666.60", "net_book_value": "83333.40"},
+      {"asset_id": "A-LIFE-002", "period": "2023-09", "amount": "833.33", "accumulated": "17499.93", "net_book_value": "82500.07"},
+      {"asset_id": "A-LIFE-002", "period": "2023-10", "amount": "833.33", "accumulated": "18333.26", "net_book_value": "81666.74"},
+      {"asset_id": "A-LIFE-002", "period": "2023-11", "amount": "833.33", "accumulated": "19166.59", "net_book_value": "80833.41"},
+      {"asset_id": "A-LIFE-002", "period": "2023-12", "amount": "833.33", "accumulated": "19999.92", "net_book_value": "80000.08"},
+      {"asset_id": "A-LIFE-002", "period": "2024-01", "amount": "833.33", "accumulated": "20833.25", "net_book_value": "79166.75"},
+      {"asset_id": "A-LIFE-002", "period": "2024-02", "amount": "833.33", "accumulated": "21666.58", "net_book_value": "78333.42"},
+      {"asset_id": "A-LIFE-002", "period": "2024-03", "amount": "833.33", "accumulated": "22499.91", "net_book_value": "77500.09"},
+      {"asset_id": "A-LIFE-002", "period": "2024-04", "amount": "833.33", "accumulated": "23333.24", "net_book_value": "76666.76"},
+      {"asset_id": "A-LIFE-002", "period": "2024-05", "amount": "833.33", "accumulated": "24166.57", "net_book_value": "75833.43"},
+      {"asset_id": "A-LIFE-002", "period": "2024-06", "amount": "833.33", "accumulated": "24999.90", "net_book_value": "75000.10"},
+      {"asset_id": "A-LIFE-002", "period": "2024-07", "amount": "833.33", "accumulated": "25833.23", "net_book_value": "74166.77"},
+      {"asset_id": "A-LIFE-002", "period": "2024-08", "amount": "833.33", "accumulated": "26666.56", "net_book_value": "73333.44"},
+      {"asset_id": "A-LIFE-002", "period": "2024-09", "amount": "833.33", "accumulated": "27499.89", "net_book_value": "72500.11"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-09-30"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-LIFE-002",
+        "error_type": "DISPOSAL_WITHOUT_RETIREMENT",
+        "description": "Asset disposed on 2024-06-30 with $40,000 proceeds but depreciation continues through 2024-09. Three entries recorded after disposal date (2024-07 through 2024-09) totaling $2,499.99 in erroneous depreciation. NBV at disposal was $75,000.10; disposal loss of $35,000.10 not properly recognized.",
+        "affected_asset_ids": ["A-LIFE-002"],
+        "affected_periods": ["2024-07", "2024-08", "2024-09"],
+        "magnitude": "2499.99"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-LIFE-002",
+        "error_type": "DISPOSAL_WITHOUT_RETIREMENT",
+        "affected_asset_ids": ["A-LIFE-002"],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

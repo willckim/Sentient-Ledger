@@ -1,0 +1,107 @@
+{
+  "scenario_id": "TEMP-002",
+  "name": "Early termination - schedule stops 12 months before useful life ends",
+  "description": "Asset $60,000 with 60-month useful life acquired 2024-01-01. Schedule shows only 48 entries stopping at 2027-12 instead of continuing through 2028-12. Implies a 48-month useful life vs the declared 60 months.",
+  "category": "TEMP",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-TEMP-002",
+        "description": "Office Furniture - Early Termination",
+        "acquisition_date": "2024-01-01",
+        "cost": "60000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 60,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-01", "amount": "1000.00", "accumulated": "1000.00", "net_book_value": "59000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-02", "amount": "1000.00", "accumulated": "2000.00", "net_book_value": "58000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-03", "amount": "1000.00", "accumulated": "3000.00", "net_book_value": "57000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-04", "amount": "1000.00", "accumulated": "4000.00", "net_book_value": "56000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-05", "amount": "1000.00", "accumulated": "5000.00", "net_book_value": "55000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-06", "amount": "1000.00", "accumulated": "6000.00", "net_book_value": "54000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-07", "amount": "1000.00", "accumulated": "7000.00", "net_book_value": "53000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-08", "amount": "1000.00", "accumulated": "8000.00", "net_book_value": "52000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-09", "amount": "1000.00", "accumulated": "9000.00", "net_book_value": "51000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-10", "amount": "1000.00", "accumulated": "10000.00", "net_book_value": "50000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-11", "amount": "1000.00", "accumulated": "11000.00", "net_book_value": "49000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2024-12", "amount": "1000.00", "accumulated": "12000.00", "net_book_value": "48000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-01", "amount": "1000.00", "accumulated": "13000.00", "net_book_value": "47000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-02", "amount": "1000.00", "accumulated": "14000.00", "net_book_value": "46000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-03", "amount": "1000.00", "accumulated": "15000.00", "net_book_value": "45000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-04", "amount": "1000.00", "accumulated": "16000.00", "net_book_value": "44000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-05", "amount": "1000.00", "accumulated": "17000.00", "net_book_value": "43000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-06", "amount": "1000.00", "accumulated": "18000.00", "net_book_value": "42000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-07", "amount": "1000.00", "accumulated": "19000.00", "net_book_value": "41000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-08", "amount": "1000.00", "accumulated": "20000.00", "net_book_value": "40000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-09", "amount": "1000.00", "accumulated": "21000.00", "net_book_value": "39000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-10", "amount": "1000.00", "accumulated": "22000.00", "net_book_value": "38000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-11", "amount": "1000.00", "accumulated": "23000.00", "net_book_value": "37000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2025-12", "amount": "1000.00", "accumulated": "24000.00", "net_book_value": "36000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-01", "amount": "1000.00", "accumulated": "25000.00", "net_book_value": "35000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-02", "amount": "1000.00", "accumulated": "26000.00", "net_book_value": "34000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-03", "amount": "1000.00", "accumulated": "27000.00", "net_book_value": "33000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-04", "amount": "1000.00", "accumulated": "28000.00", "net_book_value": "32000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-05", "amount": "1000.00", "accumulated": "29000.00", "net_book_value": "31000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-06", "amount": "1000.00", "accumulated": "30000.00", "net_book_value": "30000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-07", "amount": "1000.00", "accumulated": "31000.00", "net_book_value": "29000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-08", "amount": "1000.00", "accumulated": "32000.00", "net_book_value": "28000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-09", "amount": "1000.00", "accumulated": "33000.00", "net_book_value": "27000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-10", "amount": "1000.00", "accumulated": "34000.00", "net_book_value": "26000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-11", "amount": "1000.00", "accumulated": "35000.00", "net_book_value": "25000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2026-12", "amount": "1000.00", "accumulated": "36000.00", "net_book_value": "24000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-01", "amount": "1000.00", "accumulated": "37000.00", "net_book_value": "23000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-02", "amount": "1000.00", "accumulated": "38000.00", "net_book_value": "22000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-03", "amount": "1000.00", "accumulated": "39000.00", "net_book_value": "21000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-04", "amount": "1000.00", "accumulated": "40000.00", "net_book_value": "20000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-05", "amount": "1000.00", "accumulated": "41000.00", "net_book_value": "19000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-06", "amount": "1000.00", "accumulated": "42000.00", "net_book_value": "18000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-07", "amount": "1000.00", "accumulated": "43000.00", "net_book_value": "17000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-08", "amount": "1000.00", "accumulated": "44000.00", "net_book_value": "16000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-09", "amount": "1000.00", "accumulated": "45000.00", "net_book_value": "15000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-10", "amount": "1000.00", "accumulated": "46000.00", "net_book_value": "14000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-11", "amount": "1000.00", "accumulated": "47000.00", "net_book_value": "13000.00"},
+      {"asset_id": "ASSET-TEMP-002", "period": "2027-12", "amount": "1000.00", "accumulated": "48000.00", "net_book_value": "12000.00"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2027-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-TEMP-002",
+        "error_type": "USEFUL_LIFE_MISMATCH",
+        "description": "Schedule contains only 48 entries (2024-01 through 2027-12) for an asset with a declared 60-month useful life. The schedule terminates 12 months early, leaving $12,000 of remaining depreciable base unrecorded.",
+        "affected_asset_ids": ["ASSET-TEMP-002"],
+        "affected_periods": ["2028-01", "2028-02", "2028-03", "2028-04", "2028-05", "2028-06", "2028-07", "2028-08", "2028-09", "2028-10", "2028-11", "2028-12"],
+        "magnitude": "12000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-TEMP-002",
+        "error_type": "USEFUL_LIFE_MISMATCH",
+        "affected_asset_ids": ["ASSET-TEMP-002"],
+        "min_confidence": 0.85,
+        "pattern_id": "AW-003"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

@@ -1,0 +1,74 @@
+{
+  "scenario_id": "PLCY-003",
+  "name": "Wrong depreciation method - SL declared but DDB applied",
+  "description": "Asset register declares STRAIGHT_LINE but depreciation schedule follows a double-declining balance pattern. Asset $100,000, $10,000 salvage, 60 months (5 years), FULL_MONTH, acquired 2024-01-01. SL monthly = ($100,000 - $10,000)/60 = $1,500. DDB rate = 2/5 = 40%/yr, applied monthly at 1/30 of NBV. Schedule shows declining monthly amounts characteristic of DDB method.",
+  "category": "PLCY",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-PLCY-003",
+        "description": "Computer Equipment - Method Mismatch (SL declared, DDB applied)",
+        "acquisition_date": "2024-01-01",
+        "cost": "100000.00",
+        "salvage_value": "10000.00",
+        "useful_life_months": 60,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-PLCY-003", "period": "2024-01", "amount": "3333.33", "accumulated": "3333.33", "net_book_value": "96666.67"},
+      {"asset_id": "A-PLCY-003", "period": "2024-02", "amount": "3222.22", "accumulated": "6555.55", "net_book_value": "93444.45"},
+      {"asset_id": "A-PLCY-003", "period": "2024-03", "amount": "3114.82", "accumulated": "9670.37", "net_book_value": "90329.63"},
+      {"asset_id": "A-PLCY-003", "period": "2024-04", "amount": "3010.99", "accumulated": "12681.36", "net_book_value": "87318.64"},
+      {"asset_id": "A-PLCY-003", "period": "2024-05", "amount": "2910.62", "accumulated": "15591.98", "net_book_value": "84408.02"},
+      {"asset_id": "A-PLCY-003", "period": "2024-06", "amount": "2813.60", "accumulated": "18405.58", "net_book_value": "81594.42"},
+      {"asset_id": "A-PLCY-003", "period": "2024-07", "amount": "2719.81", "accumulated": "21125.39", "net_book_value": "78874.61"},
+      {"asset_id": "A-PLCY-003", "period": "2024-08", "amount": "2629.15", "accumulated": "23754.54", "net_book_value": "76245.46"},
+      {"asset_id": "A-PLCY-003", "period": "2024-09", "amount": "2541.52", "accumulated": "26296.06", "net_book_value": "73703.94"},
+      {"asset_id": "A-PLCY-003", "period": "2024-10", "amount": "2456.80", "accumulated": "28752.86", "net_book_value": "71247.14"},
+      {"asset_id": "A-PLCY-003", "period": "2024-11", "amount": "2374.90", "accumulated": "31127.76", "net_book_value": "68872.24"},
+      {"asset_id": "A-PLCY-003", "period": "2024-12", "amount": "2295.74", "accumulated": "33423.50", "net_book_value": "66576.50"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-PLCY-003",
+        "error_type": "RECLASSIFICATION_ANOMALY",
+        "description": "Depreciation schedule applies double-declining balance method (DDB at 40%/yr) instead of the straight-line method declared in the asset register. DDB produces declining monthly amounts ($3,333.33 in month 1 decreasing to $2,295.74 in month 12) versus the constant $1,500/month expected under straight-line.",
+        "affected_asset_ids": ["A-PLCY-003"],
+        "affected_periods": [
+          "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06",
+          "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"
+        ],
+        "magnitude": "15423.50"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-PLCY-003",
+        "error_type": "RECLASSIFICATION_ANOMALY",
+        "affected_asset_ids": ["A-PLCY-003"],
+        "min_confidence": 0.8,
+        "pattern_id": null
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

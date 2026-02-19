@@ -1,0 +1,166 @@
+{
+  "scenario_id": "CALC-005",
+  "name": "SYD calculation error - flat SL rate used instead of sum-of-years digits",
+  "description": "Asset $60,000 cost, $0 salvage, 60 months (5 years), SYD method. SYD denominator = 5+4+3+2+1 = 15. Year 1 fraction = 5/15, annual = $20,000, monthly = $1,666.67. Schedule erroneously uses flat SL = $1,000/month.",
+  "category": "CALC",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-CALC-005",
+        "description": "Computer Equipment - SYD Method",
+        "acquisition_date": "2024-01-01",
+        "cost": "60000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 60,
+        "depreciation_method": "SUM_OF_YEARS",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-01",
+        "amount": "1000.00",
+        "accumulated": "1000.00",
+        "net_book_value": "59000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-02",
+        "amount": "1000.00",
+        "accumulated": "2000.00",
+        "net_book_value": "58000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-03",
+        "amount": "1000.00",
+        "accumulated": "3000.00",
+        "net_book_value": "57000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-04",
+        "amount": "1000.00",
+        "accumulated": "4000.00",
+        "net_book_value": "56000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-05",
+        "amount": "1000.00",
+        "accumulated": "5000.00",
+        "net_book_value": "55000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-06",
+        "amount": "1000.00",
+        "accumulated": "6000.00",
+        "net_book_value": "54000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-07",
+        "amount": "1000.00",
+        "accumulated": "7000.00",
+        "net_book_value": "53000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-08",
+        "amount": "1000.00",
+        "accumulated": "8000.00",
+        "net_book_value": "52000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-09",
+        "amount": "1000.00",
+        "accumulated": "9000.00",
+        "net_book_value": "51000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-10",
+        "amount": "1000.00",
+        "accumulated": "10000.00",
+        "net_book_value": "50000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-11",
+        "amount": "1000.00",
+        "accumulated": "11000.00",
+        "net_book_value": "49000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-005",
+        "period": "2024-12",
+        "amount": "1000.00",
+        "accumulated": "12000.00",
+        "net_book_value": "48000.00"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-CALC-005",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "SYD method Year 1 fraction = 5/15 yielding annual depreciation of $20,000 ($1,666.67/month). Schedule erroneously uses flat SL of $1,000/month ($12,000/year). Year 1 variance = $8,000.",
+        "affected_asset_ids": [
+          "ASSET-CALC-005"
+        ],
+        "affected_periods": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2024-09",
+          "2024-10",
+          "2024-11",
+          "2024-12"
+        ],
+        "magnitude": "8000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-CALC-005",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": [
+          "ASSET-CALC-005"
+        ],
+        "min_confidence": 0.85,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": [
+      {
+        "error_id": "ERR-CALC-005",
+        "expected_trigger_reason": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "expected_self_healable": true
+      }
+    ]
+  },
+  "eval_criteria": {
+    "min_recall": 0.95,
+    "min_precision": 0.9,
+    "max_correction_error": "5.00"
+  },
+  "metadata": {}
+}

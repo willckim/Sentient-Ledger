@@ -1,0 +1,43 @@
+{
+  "scenario_id": "EDGE-002",
+  "name": "Very short useful life - single month full expensing",
+  "description": "Asset $12,000 cost, $0 salvage, 1 month useful life, SL, FULL_MONTH, acquired 2024-06-01. Entire cost depreciated in a single period. Schedule correctly shows 1 entry for $12,000. Clean scenario with no errors.",
+  "category": "EDGE",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-EDGE-002",
+        "description": "Short-lived Tooling - Single Month Life",
+        "acquisition_date": "2024-06-01",
+        "cost": "12000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 1,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "ASSET-EDGE-002", "period": "2024-06", "amount": "12000.00", "accumulated": "12000.00", "net_book_value": "0.00"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-06-30"
+  },
+  "expected": {
+    "injected_errors": [],
+    "expected_detections": [],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

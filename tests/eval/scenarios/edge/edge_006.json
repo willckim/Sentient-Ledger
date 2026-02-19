@@ -1,0 +1,54 @@
+{
+  "scenario_id": "EDGE-006",
+  "name": "DDB with very short life - 2-year asset correct declining balance",
+  "description": "Asset $24,000 cost, $0 salvage, 24 months (2 years), DDB, FULL_MONTH, acquired 2024-01-01. Annual DDB rate = 2/2 = 100%. Monthly rate = 100%/12 = 8.3333%. Each month depreciates at 1/12 of remaining book value. Schedule shows correct DDB pattern. Clean scenario.",
+  "category": "EDGE",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-EDGE-006",
+        "description": "Specialized Tooling - Short DDB Life",
+        "acquisition_date": "2024-01-01",
+        "cost": "24000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 24,
+        "depreciation_method": "DOUBLE_DECLINING",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-01", "amount": "2000.00", "accumulated": "2000.00", "net_book_value": "22000.00"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-02", "amount": "1833.33", "accumulated": "3833.33", "net_book_value": "20166.67"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-03", "amount": "1680.56", "accumulated": "5513.89", "net_book_value": "18486.11"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-04", "amount": "1540.51", "accumulated": "7054.40", "net_book_value": "16945.60"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-05", "amount": "1412.13", "accumulated": "8466.53", "net_book_value": "15533.47"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-06", "amount": "1294.46", "accumulated": "9760.99", "net_book_value": "14239.01"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-07", "amount": "1186.58", "accumulated": "10947.57", "net_book_value": "13052.43"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-08", "amount": "1087.70", "accumulated": "12035.27", "net_book_value": "11964.73"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-09", "amount": "997.06", "accumulated": "13032.33", "net_book_value": "10967.67"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-10", "amount": "913.97", "accumulated": "13946.30", "net_book_value": "10053.70"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-11", "amount": "837.81", "accumulated": "14784.11", "net_book_value": "9215.89"},
+      {"asset_id": "ASSET-EDGE-006", "period": "2024-12", "amount": "767.99", "accumulated": "15552.10", "net_book_value": "8447.90"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [],
+    "expected_detections": [],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

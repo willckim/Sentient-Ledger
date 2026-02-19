@@ -1,0 +1,157 @@
+{
+  "scenario_id": "EDGE-008",
+  "name": "Zero depreciation periods interspersed - quarterly suspension pattern",
+  "description": "Asset $60,000 cost, $0 salvage, 60 months, SL, FULL_MONTH, acquired 2024-01-01. Correct monthly = $1,000. Schedule has 12 entries for 2024 but months 4, 7, and 10 show $0 amount (as if depreciation was suspended quarterly). 9 entries at $1,000, 3 at $0. Total $9,000 vs expected $12,000 = $3,000 understatement.",
+  "category": "EDGE",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "description": "Furniture & Fixtures - Suspended Depreciation",
+        "acquisition_date": "2024-01-01",
+        "cost": "60000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 60,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-01",
+        "amount": "1000.00",
+        "accumulated": "1000.00",
+        "net_book_value": "59000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-02",
+        "amount": "1000.00",
+        "accumulated": "2000.00",
+        "net_book_value": "58000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-03",
+        "amount": "1000.00",
+        "accumulated": "3000.00",
+        "net_book_value": "57000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-04",
+        "amount": "0.00",
+        "accumulated": "3000.00",
+        "net_book_value": "57000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-05",
+        "amount": "1000.00",
+        "accumulated": "4000.00",
+        "net_book_value": "56000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-06",
+        "amount": "1000.00",
+        "accumulated": "5000.00",
+        "net_book_value": "55000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-07",
+        "amount": "0.00",
+        "accumulated": "5000.00",
+        "net_book_value": "55000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-08",
+        "amount": "1000.00",
+        "accumulated": "6000.00",
+        "net_book_value": "54000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-09",
+        "amount": "1000.00",
+        "accumulated": "7000.00",
+        "net_book_value": "53000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-10",
+        "amount": "0.00",
+        "accumulated": "7000.00",
+        "net_book_value": "53000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-11",
+        "amount": "1000.00",
+        "accumulated": "8000.00",
+        "net_book_value": "52000.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-008",
+        "period": "2024-12",
+        "amount": "1000.00",
+        "accumulated": "9000.00",
+        "net_book_value": "51000.00"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-EDGE-008",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Depreciation is zero in periods 2024-04, 2024-07, and 2024-10, creating a quarterly suspension pattern. No reason for suspension exists on an active asset. Total recorded $9,000 vs expected $12,000 = $3,000 understatement over 12 periods.",
+        "affected_asset_ids": [
+          "ASSET-EDGE-008"
+        ],
+        "affected_periods": [
+          "2024-04",
+          "2024-07",
+          "2024-10"
+        ],
+        "magnitude": "3000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-EDGE-008",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": [
+          "ASSET-EDGE-008"
+        ],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": [
+      {
+        "error_id": "ERR-EDGE-008",
+        "expected_trigger_reason": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "expected_self_healable": true
+      }
+    ]
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

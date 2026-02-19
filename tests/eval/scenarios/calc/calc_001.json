@@ -1,0 +1,166 @@
+{
+  "scenario_id": "CALC-001",
+  "name": "Wrong monthly amount - straight-line rounding error",
+  "description": "Straight-line asset with $120,000 cost, $0 salvage, 120 months. Correct monthly depreciation is $1,000. Schedule erroneously uses $1,100/month, producing a $100/month overstatement across 12 periods.",
+  "category": "CALC",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-CALC-001",
+        "description": "Office Equipment - Straight Line",
+        "acquisition_date": "2024-01-01",
+        "cost": "120000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-01",
+        "amount": "1100.00",
+        "accumulated": "1100.00",
+        "net_book_value": "118900.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-02",
+        "amount": "1100.00",
+        "accumulated": "2200.00",
+        "net_book_value": "117800.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-03",
+        "amount": "1100.00",
+        "accumulated": "3300.00",
+        "net_book_value": "116700.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-04",
+        "amount": "1100.00",
+        "accumulated": "4400.00",
+        "net_book_value": "115600.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-05",
+        "amount": "1100.00",
+        "accumulated": "5500.00",
+        "net_book_value": "114500.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-06",
+        "amount": "1100.00",
+        "accumulated": "6600.00",
+        "net_book_value": "113400.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-07",
+        "amount": "1100.00",
+        "accumulated": "7700.00",
+        "net_book_value": "112300.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-08",
+        "amount": "1100.00",
+        "accumulated": "8800.00",
+        "net_book_value": "111200.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-09",
+        "amount": "1100.00",
+        "accumulated": "9900.00",
+        "net_book_value": "110100.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-10",
+        "amount": "1100.00",
+        "accumulated": "11000.00",
+        "net_book_value": "109000.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-11",
+        "amount": "1100.00",
+        "accumulated": "12100.00",
+        "net_book_value": "107900.00"
+      },
+      {
+        "asset_id": "ASSET-CALC-001",
+        "period": "2024-12",
+        "amount": "1100.00",
+        "accumulated": "13200.00",
+        "net_book_value": "106800.00"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-CALC-001",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Monthly depreciation is $1,100 instead of correct $1,000 (10% overstatement). Depreciable base $120,000 / 120 months = $1,000/month.",
+        "affected_asset_ids": [
+          "ASSET-CALC-001"
+        ],
+        "affected_periods": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2024-09",
+          "2024-10",
+          "2024-11",
+          "2024-12"
+        ],
+        "magnitude": "1200.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-CALC-001",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": [
+          "ASSET-CALC-001"
+        ],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": [
+      {
+        "error_id": "ERR-CALC-001",
+        "expected_trigger_reason": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "expected_self_healable": true
+      }
+    ]
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

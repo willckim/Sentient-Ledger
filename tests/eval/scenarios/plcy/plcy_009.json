@@ -1,0 +1,61 @@
+{
+  "scenario_id": "PLCY-009",
+  "name": "Capitalization threshold error - asset expensed instead of capitalized",
+  "description": "Small asset $4,000, $0 salvage, 48 months, SL. Correct monthly depreciation = $4,000/48 = $83.33. Schedule shows no depreciation entries at all because the asset was erroneously expensed at acquisition instead of being capitalized and depreciated per policy. The empty schedule indicates missing depreciation for an active asset in the register.",
+  "category": "PLCY",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-PLCY-009",
+        "description": "Office Equipment - Incorrectly Expensed Below Capitalization Threshold",
+        "acquisition_date": "2024-01-01",
+        "cost": "4000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 48,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-PLCY-009",
+        "error_type": "MISSING_DEPRECIATION_ENTRY",
+        "description": "Active asset in register with cost of $4,000 and 48-month useful life has no depreciation schedule entries. The asset was erroneously expensed at acquisition instead of being capitalized and depreciated. 12 months of depreciation at $83.33/month ($999.96 total) are missing for the as-of period.",
+        "affected_asset_ids": ["A-PLCY-009"],
+        "affected_periods": [
+          "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06",
+          "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"
+        ],
+        "magnitude": "999.96"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-PLCY-009",
+        "error_type": "MISSING_DEPRECIATION_ENTRY",
+        "affected_asset_ids": ["A-PLCY-009"],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-002"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

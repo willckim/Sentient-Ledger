@@ -1,0 +1,89 @@
+{
+  "scenario_id": "LIFE-005",
+  "name": "Fully depreciated asset still depreciating past useful life",
+  "description": "Asset $24,000, $0 salvage, 24 months, SL, FULL_MONTH, acquired 2022-01-01. Status=FULLY_DEPRECIATED. Monthly=$1,000. Schedule shows 30 entries (6 past end of useful life). Last NBV = -$6,000 (negative). Depreciation should have stopped at month 24.",
+  "category": "LIFE",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-LIFE-005",
+        "description": "Software License - Fully depreciated but still depreciating",
+        "acquisition_date": "2022-01-01",
+        "cost": "24000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 24,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "FULLY_DEPRECIATED",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-LIFE-005", "period": "2022-01", "amount": "1000.00", "accumulated": "1000.00", "net_book_value": "23000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-02", "amount": "1000.00", "accumulated": "2000.00", "net_book_value": "22000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-03", "amount": "1000.00", "accumulated": "3000.00", "net_book_value": "21000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-04", "amount": "1000.00", "accumulated": "4000.00", "net_book_value": "20000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-05", "amount": "1000.00", "accumulated": "5000.00", "net_book_value": "19000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-06", "amount": "1000.00", "accumulated": "6000.00", "net_book_value": "18000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-07", "amount": "1000.00", "accumulated": "7000.00", "net_book_value": "17000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-08", "amount": "1000.00", "accumulated": "8000.00", "net_book_value": "16000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-09", "amount": "1000.00", "accumulated": "9000.00", "net_book_value": "15000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-10", "amount": "1000.00", "accumulated": "10000.00", "net_book_value": "14000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-11", "amount": "1000.00", "accumulated": "11000.00", "net_book_value": "13000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2022-12", "amount": "1000.00", "accumulated": "12000.00", "net_book_value": "12000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-01", "amount": "1000.00", "accumulated": "13000.00", "net_book_value": "11000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-02", "amount": "1000.00", "accumulated": "14000.00", "net_book_value": "10000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-03", "amount": "1000.00", "accumulated": "15000.00", "net_book_value": "9000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-04", "amount": "1000.00", "accumulated": "16000.00", "net_book_value": "8000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-05", "amount": "1000.00", "accumulated": "17000.00", "net_book_value": "7000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-06", "amount": "1000.00", "accumulated": "18000.00", "net_book_value": "6000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-07", "amount": "1000.00", "accumulated": "19000.00", "net_book_value": "5000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-08", "amount": "1000.00", "accumulated": "20000.00", "net_book_value": "4000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-09", "amount": "1000.00", "accumulated": "21000.00", "net_book_value": "3000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-10", "amount": "1000.00", "accumulated": "22000.00", "net_book_value": "2000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-11", "amount": "1000.00", "accumulated": "23000.00", "net_book_value": "1000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2023-12", "amount": "1000.00", "accumulated": "24000.00", "net_book_value": "0.00"},
+      {"asset_id": "A-LIFE-005", "period": "2024-01", "amount": "1000.00", "accumulated": "25000.00", "net_book_value": "-1000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2024-02", "amount": "1000.00", "accumulated": "26000.00", "net_book_value": "-2000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2024-03", "amount": "1000.00", "accumulated": "27000.00", "net_book_value": "-3000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2024-04", "amount": "1000.00", "accumulated": "28000.00", "net_book_value": "-4000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2024-05", "amount": "1000.00", "accumulated": "29000.00", "net_book_value": "-5000.00"},
+      {"asset_id": "A-LIFE-005", "period": "2024-06", "amount": "1000.00", "accumulated": "30000.00", "net_book_value": "-6000.00"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-06-30"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-LIFE-005",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Asset fully depreciated after 24 months (2023-12) but depreciation continues for 6 additional periods (2024-01 through 2024-06), driving NBV to -$6,000. Accumulated depreciation of $30,000 exceeds depreciable base of $24,000 by $6,000.",
+        "affected_asset_ids": ["A-LIFE-005"],
+        "affected_periods": ["2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06"],
+        "magnitude": "6000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-LIFE-005",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": ["A-LIFE-005"],
+        "min_confidence": 0.85,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

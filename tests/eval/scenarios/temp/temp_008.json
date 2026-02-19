@@ -1,0 +1,74 @@
+{
+  "scenario_id": "TEMP-008",
+  "name": "Depreciation continues after fully depreciated - 3 extra months",
+  "description": "Asset $12,000 with 12-month useful life acquired 2024-01-01. Schedule shows 15 entries continuing 3 months past full depreciation. After month 12, accumulated should be $12,000 (fully depreciated) but entries 13-15 add $3,000 more, resulting in $15,000 total depreciation on a $12,000 asset.",
+  "category": "TEMP",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-TEMP-008",
+        "description": "Computer Equipment - Over-Depreciated",
+        "acquisition_date": "2024-01-01",
+        "cost": "12000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 12,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-01", "amount": "1000.00", "accumulated": "1000.00", "net_book_value": "11000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-02", "amount": "1000.00", "accumulated": "2000.00", "net_book_value": "10000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-03", "amount": "1000.00", "accumulated": "3000.00", "net_book_value": "9000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-04", "amount": "1000.00", "accumulated": "4000.00", "net_book_value": "8000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-05", "amount": "1000.00", "accumulated": "5000.00", "net_book_value": "7000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-06", "amount": "1000.00", "accumulated": "6000.00", "net_book_value": "6000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-07", "amount": "1000.00", "accumulated": "7000.00", "net_book_value": "5000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-08", "amount": "1000.00", "accumulated": "8000.00", "net_book_value": "4000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-09", "amount": "1000.00", "accumulated": "9000.00", "net_book_value": "3000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-10", "amount": "1000.00", "accumulated": "10000.00", "net_book_value": "2000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-11", "amount": "1000.00", "accumulated": "11000.00", "net_book_value": "1000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2024-12", "amount": "1000.00", "accumulated": "12000.00", "net_book_value": "0.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2025-01", "amount": "1000.00", "accumulated": "13000.00", "net_book_value": "-1000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2025-02", "amount": "1000.00", "accumulated": "14000.00", "net_book_value": "-2000.00"},
+      {"asset_id": "ASSET-TEMP-008", "period": "2025-03", "amount": "1000.00", "accumulated": "15000.00", "net_book_value": "-3000.00"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2025-03-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-TEMP-008",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Depreciation continues 3 months beyond the 12-month useful life. Asset was fully depreciated at 2024-12 (accumulated $12,000 = cost) but entries for 2025-01, 2025-02, and 2025-03 add $3,000 more, driving accumulated depreciation to $15,000 and NBV to -$3,000.",
+        "affected_asset_ids": ["ASSET-TEMP-008"],
+        "affected_periods": ["2025-01", "2025-02", "2025-03"],
+        "magnitude": "3000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-TEMP-008",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": ["ASSET-TEMP-008"],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

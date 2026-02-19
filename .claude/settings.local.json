@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip:*)",
+      "WebSearch",
+      "WebFetch(domain:pypi.org)",
+      "WebFetch(domain:docs.langchain.com)",
+      "WebFetch(domain:reference.langchain.com)",
+      "WebFetch(domain:www.baihezi.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(python -c:*)",
+      "Bash(python -m pytest:*)",
+      "Bash(wc:*)",
+      "mcp__ide__executeCode",
+      "Bash(find:*)",
+      "Bash(grep:*)"
+    ]
+  }
+}

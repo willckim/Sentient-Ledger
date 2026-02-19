@@ -1,0 +1,71 @@
+{
+  "scenario_id": "TEMP-001",
+  "name": "Late start - depreciation begins 2 months after acquisition",
+  "description": "Asset acquired 2024-01-15 with FULL_MONTH convention. Depreciation should start 2024-01 but schedule begins 2024-03, missing the first 2 months entirely. 12 entries from 2024-03 to 2025-02 at $1,000/month.",
+  "category": "TEMP",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-TEMP-001",
+        "description": "Machinery - Late Depreciation Start",
+        "acquisition_date": "2024-01-15",
+        "cost": "120000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "ASSET-TEMP-001", "period": "2024-03", "amount": "1000.00", "accumulated": "1000.00", "net_book_value": "119000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2024-04", "amount": "1000.00", "accumulated": "2000.00", "net_book_value": "118000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2024-05", "amount": "1000.00", "accumulated": "3000.00", "net_book_value": "117000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2024-06", "amount": "1000.00", "accumulated": "4000.00", "net_book_value": "116000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2024-07", "amount": "1000.00", "accumulated": "5000.00", "net_book_value": "115000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2024-08", "amount": "1000.00", "accumulated": "6000.00", "net_book_value": "114000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2024-09", "amount": "1000.00", "accumulated": "7000.00", "net_book_value": "113000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2024-10", "amount": "1000.00", "accumulated": "8000.00", "net_book_value": "112000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2024-11", "amount": "1000.00", "accumulated": "9000.00", "net_book_value": "111000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2024-12", "amount": "1000.00", "accumulated": "10000.00", "net_book_value": "110000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2025-01", "amount": "1000.00", "accumulated": "11000.00", "net_book_value": "109000.00"},
+      {"asset_id": "ASSET-TEMP-001", "period": "2025-02", "amount": "1000.00", "accumulated": "12000.00", "net_book_value": "108000.00"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2025-02-28"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-TEMP-001",
+        "error_type": "MISSING_DEPRECIATION_ENTRY",
+        "description": "Depreciation schedule starts at 2024-03 instead of 2024-01. Periods 2024-01 and 2024-02 are missing, representing $2,000 of unrecorded depreciation.",
+        "affected_asset_ids": ["ASSET-TEMP-001"],
+        "affected_periods": ["2024-01", "2024-02"],
+        "magnitude": "2000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-TEMP-001",
+        "error_type": "MISSING_DEPRECIATION_ENTRY",
+        "affected_asset_ids": ["ASSET-TEMP-001"],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-002"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

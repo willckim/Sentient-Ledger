@@ -1,0 +1,74 @@
+{
+  "scenario_id": "PLCY-008",
+  "name": "Tax vs book depreciation confusion - SL declared but DDB tax rate applied",
+  "description": "Asset register declares STRAIGHT_LINE (book depreciation) but schedule applies DDB (tax depreciation rate). Asset $80,000, $0 salvage, 120 months (10 years), SL declared, FULL_MONTH, acquired 2024-01-01. SL monthly = $80,000/120 = $666.67. DDB rate = 2/10 = 20%/yr, applied monthly at 1/60 of NBV. Schedule shows declining DDB pattern instead of constant SL amounts.",
+  "category": "PLCY",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-PLCY-008",
+        "description": "Vehicle Fleet - Tax/Book Method Confusion (SL declared, DDB tax rate applied)",
+        "acquisition_date": "2024-01-01",
+        "cost": "80000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-PLCY-008", "period": "2024-01", "amount": "1333.33", "accumulated": "1333.33", "net_book_value": "78666.67"},
+      {"asset_id": "A-PLCY-008", "period": "2024-02", "amount": "1311.11", "accumulated": "2644.44", "net_book_value": "77355.56"},
+      {"asset_id": "A-PLCY-008", "period": "2024-03", "amount": "1289.26", "accumulated": "3933.70", "net_book_value": "76066.30"},
+      {"asset_id": "A-PLCY-008", "period": "2024-04", "amount": "1267.77", "accumulated": "5201.47", "net_book_value": "74798.53"},
+      {"asset_id": "A-PLCY-008", "period": "2024-05", "amount": "1246.64", "accumulated": "6448.11", "net_book_value": "73551.89"},
+      {"asset_id": "A-PLCY-008", "period": "2024-06", "amount": "1225.86", "accumulated": "7673.97", "net_book_value": "72326.03"},
+      {"asset_id": "A-PLCY-008", "period": "2024-07", "amount": "1205.43", "accumulated": "8879.40", "net_book_value": "71120.60"},
+      {"asset_id": "A-PLCY-008", "period": "2024-08", "amount": "1185.34", "accumulated": "10064.74", "net_book_value": "69935.26"},
+      {"asset_id": "A-PLCY-008", "period": "2024-09", "amount": "1165.59", "accumulated": "11230.33", "net_book_value": "68769.67"},
+      {"asset_id": "A-PLCY-008", "period": "2024-10", "amount": "1146.16", "accumulated": "12376.49", "net_book_value": "67623.51"},
+      {"asset_id": "A-PLCY-008", "period": "2024-11", "amount": "1127.06", "accumulated": "13503.55", "net_book_value": "66496.45"},
+      {"asset_id": "A-PLCY-008", "period": "2024-12", "amount": "1108.27", "accumulated": "14611.82", "net_book_value": "65388.18"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-PLCY-008",
+        "error_type": "RECLASSIFICATION_ANOMALY",
+        "description": "Tax depreciation method (DDB at 20%/yr) erroneously applied instead of the book depreciation method (straight-line) declared in the asset register. DDB produces declining monthly amounts ($1,333.33 in month 1 decreasing to $1,108.27 in month 12) versus the constant $666.67/month expected under straight-line. Total DDB depreciation of $14,611.82 over 12 months versus correct SL total of $8,000.04.",
+        "affected_asset_ids": ["A-PLCY-008"],
+        "affected_periods": [
+          "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06",
+          "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"
+        ],
+        "magnitude": "6611.78"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-PLCY-008",
+        "error_type": "RECLASSIFICATION_ANOMALY",
+        "affected_asset_ids": ["A-PLCY-008"],
+        "min_confidence": 0.75,
+        "pattern_id": null
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

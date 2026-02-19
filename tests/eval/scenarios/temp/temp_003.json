@@ -1,0 +1,70 @@
+{
+  "scenario_id": "TEMP-003",
+  "name": "Missed period in middle of schedule - June 2024 skipped",
+  "description": "Asset $120,000 with 120-month useful life acquired 2024-01-01. Schedule shows 11 entries for 2024 but period 2024-06 is missing. This creates a gap in the middle of the depreciation schedule.",
+  "category": "TEMP",
+  "severity": "CRITICAL",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-TEMP-003",
+        "description": "Manufacturing Equipment - Missed Period",
+        "acquisition_date": "2024-01-01",
+        "cost": "120000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-01", "amount": "1000.00", "accumulated": "1000.00", "net_book_value": "119000.00"},
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-02", "amount": "1000.00", "accumulated": "2000.00", "net_book_value": "118000.00"},
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-03", "amount": "1000.00", "accumulated": "3000.00", "net_book_value": "117000.00"},
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-04", "amount": "1000.00", "accumulated": "4000.00", "net_book_value": "116000.00"},
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-05", "amount": "1000.00", "accumulated": "5000.00", "net_book_value": "115000.00"},
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-07", "amount": "1000.00", "accumulated": "6000.00", "net_book_value": "114000.00"},
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-08", "amount": "1000.00", "accumulated": "7000.00", "net_book_value": "113000.00"},
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-09", "amount": "1000.00", "accumulated": "8000.00", "net_book_value": "112000.00"},
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-10", "amount": "1000.00", "accumulated": "9000.00", "net_book_value": "111000.00"},
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-11", "amount": "1000.00", "accumulated": "10000.00", "net_book_value": "110000.00"},
+      {"asset_id": "ASSET-TEMP-003", "period": "2024-12", "amount": "1000.00", "accumulated": "11000.00", "net_book_value": "109000.00"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-TEMP-003",
+        "error_type": "MISSING_DEPRECIATION_ENTRY",
+        "description": "Period 2024-06 is missing from the depreciation schedule. The schedule jumps from 2024-05 to 2024-07, leaving a $1,000 gap in accumulated depreciation.",
+        "affected_asset_ids": ["ASSET-TEMP-003"],
+        "affected_periods": ["2024-06"],
+        "magnitude": "1000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-TEMP-003",
+        "error_type": "MISSING_DEPRECIATION_ENTRY",
+        "affected_asset_ids": ["ASSET-TEMP-003"],
+        "min_confidence": 0.95,
+        "pattern_id": "AW-002"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

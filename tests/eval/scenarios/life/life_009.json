@@ -1,0 +1,71 @@
+{
+  "scenario_id": "LIFE-009",
+  "name": "Retirement without disposal - disposed status but no disposal date",
+  "description": "Asset $100,000, $0 salvage, 120 months, SL, FULL_MONTH, acquired 2023-01-01. Status=DISPOSED but disposal_date=null. No disposal date recorded for a disposed asset. Monthly=$833.33. 12 entries from 2023-01 to 2023-12.",
+  "category": "LIFE",
+  "severity": "CRITICAL",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-LIFE-009",
+        "description": "Office Equipment - Disposed without disposal date",
+        "acquisition_date": "2023-01-01",
+        "cost": "100000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "DISPOSED",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-LIFE-009", "period": "2023-01", "amount": "833.33", "accumulated": "833.33", "net_book_value": "99166.67"},
+      {"asset_id": "A-LIFE-009", "period": "2023-02", "amount": "833.33", "accumulated": "1666.66", "net_book_value": "98333.34"},
+      {"asset_id": "A-LIFE-009", "period": "2023-03", "amount": "833.33", "accumulated": "2499.99", "net_book_value": "97500.01"},
+      {"asset_id": "A-LIFE-009", "period": "2023-04", "amount": "833.33", "accumulated": "3333.32", "net_book_value": "96666.68"},
+      {"asset_id": "A-LIFE-009", "period": "2023-05", "amount": "833.33", "accumulated": "4166.65", "net_book_value": "95833.35"},
+      {"asset_id": "A-LIFE-009", "period": "2023-06", "amount": "833.33", "accumulated": "4999.98", "net_book_value": "95000.02"},
+      {"asset_id": "A-LIFE-009", "period": "2023-07", "amount": "833.33", "accumulated": "5833.31", "net_book_value": "94166.69"},
+      {"asset_id": "A-LIFE-009", "period": "2023-08", "amount": "833.33", "accumulated": "6666.64", "net_book_value": "93333.36"},
+      {"asset_id": "A-LIFE-009", "period": "2023-09", "amount": "833.33", "accumulated": "7499.97", "net_book_value": "92500.03"},
+      {"asset_id": "A-LIFE-009", "period": "2023-10", "amount": "833.33", "accumulated": "8333.30", "net_book_value": "91666.70"},
+      {"asset_id": "A-LIFE-009", "period": "2023-11", "amount": "833.33", "accumulated": "9166.63", "net_book_value": "90833.37"},
+      {"asset_id": "A-LIFE-009", "period": "2023-12", "amount": "833.33", "accumulated": "9999.96", "net_book_value": "90000.04"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2023-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-LIFE-009",
+        "error_type": "DISPOSAL_WITHOUT_RETIREMENT",
+        "description": "Asset status is DISPOSED but disposal_date is null. A disposed asset must have a recorded disposal date for proper retirement accounting. Without a disposal date, the timing of gain/loss recognition and depreciation cessation cannot be determined.",
+        "affected_asset_ids": ["A-LIFE-009"],
+        "affected_periods": ["2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12"],
+        "magnitude": "9999.96"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-LIFE-009",
+        "error_type": "DISPOSAL_WITHOUT_RETIREMENT",
+        "affected_asset_ids": ["A-LIFE-009"],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

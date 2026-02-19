@@ -1,0 +1,160 @@
+{
+  "scenario_id": "LIFE-006",
+  "name": "Mid-life useful life change not applied - wrong depreciation rate",
+  "description": "Asset $120,000, $0 salvage, register declares 60 months, SL, FULL_MONTH, acquired 2024-01-01. Correct monthly = $2,000. But schedule uses 120-month rate = $1,000/month. 12 entries shown. Detect rate mismatch with register useful life.",
+  "category": "LIFE",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-LIFE-006",
+        "description": "Production Equipment - Useful life change not applied",
+        "acquisition_date": "2024-01-01",
+        "cost": "120000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 60,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-01",
+        "amount": "1000.00",
+        "accumulated": "1000.00",
+        "net_book_value": "119000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-02",
+        "amount": "1000.00",
+        "accumulated": "2000.00",
+        "net_book_value": "118000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-03",
+        "amount": "1000.00",
+        "accumulated": "3000.00",
+        "net_book_value": "117000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-04",
+        "amount": "1000.00",
+        "accumulated": "4000.00",
+        "net_book_value": "116000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-05",
+        "amount": "1000.00",
+        "accumulated": "5000.00",
+        "net_book_value": "115000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-06",
+        "amount": "1000.00",
+        "accumulated": "6000.00",
+        "net_book_value": "114000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-07",
+        "amount": "1000.00",
+        "accumulated": "7000.00",
+        "net_book_value": "113000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-08",
+        "amount": "1000.00",
+        "accumulated": "8000.00",
+        "net_book_value": "112000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-09",
+        "amount": "1000.00",
+        "accumulated": "9000.00",
+        "net_book_value": "111000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-10",
+        "amount": "1000.00",
+        "accumulated": "10000.00",
+        "net_book_value": "110000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-11",
+        "amount": "1000.00",
+        "accumulated": "11000.00",
+        "net_book_value": "109000.00"
+      },
+      {
+        "asset_id": "A-LIFE-006",
+        "period": "2024-12",
+        "amount": "1000.00",
+        "accumulated": "12000.00",
+        "net_book_value": "108000.00"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-LIFE-006a",
+        "error_type": "USEFUL_LIFE_MISMATCH",
+        "description": "Register declares 60-month useful life but schedule applies a 120-month rate ($1,000/month instead of $2,000/month). The depreciation rate is inconsistent with the asset register's useful life setting.",
+        "affected_asset_ids": [
+          "A-LIFE-006"
+        ],
+        "affected_periods": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2024-09",
+          "2024-10",
+          "2024-11",
+          "2024-12"
+        ],
+        "magnitude": "12000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-LIFE-006a",
+        "error_type": "USEFUL_LIFE_MISMATCH",
+        "affected_asset_ids": [
+          "A-LIFE-006"
+        ],
+        "min_confidence": 0.85,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

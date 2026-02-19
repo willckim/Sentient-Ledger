@@ -1,0 +1,77 @@
+{
+  "scenario_id": "LIFE-003",
+  "name": "Asset reactivated after disposal - active status with disposal date",
+  "description": "Asset $80,000, $0 salvage, 120 months, SL, FULL_MONTH, acquired 2023-01-01. Status=ACTIVE but has disposal_date=2024-03-15. An active asset should not have a disposal date. Monthly=$666.67. 18 entries from 2023-01 to 2024-06.",
+  "category": "LIFE",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-LIFE-003",
+        "description": "Computer Equipment - Reactivated after disposal",
+        "acquisition_date": "2023-01-01",
+        "cost": "80000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": "2024-03-15",
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-LIFE-003", "period": "2023-01", "amount": "666.67", "accumulated": "666.67", "net_book_value": "79333.33"},
+      {"asset_id": "A-LIFE-003", "period": "2023-02", "amount": "666.67", "accumulated": "1333.34", "net_book_value": "78666.66"},
+      {"asset_id": "A-LIFE-003", "period": "2023-03", "amount": "666.67", "accumulated": "2000.01", "net_book_value": "77999.99"},
+      {"asset_id": "A-LIFE-003", "period": "2023-04", "amount": "666.67", "accumulated": "2666.68", "net_book_value": "77333.32"},
+      {"asset_id": "A-LIFE-003", "period": "2023-05", "amount": "666.67", "accumulated": "3333.35", "net_book_value": "76666.65"},
+      {"asset_id": "A-LIFE-003", "period": "2023-06", "amount": "666.67", "accumulated": "4000.02", "net_book_value": "75999.98"},
+      {"asset_id": "A-LIFE-003", "period": "2023-07", "amount": "666.67", "accumulated": "4666.69", "net_book_value": "75333.31"},
+      {"asset_id": "A-LIFE-003", "period": "2023-08", "amount": "666.67", "accumulated": "5333.36", "net_book_value": "74666.64"},
+      {"asset_id": "A-LIFE-003", "period": "2023-09", "amount": "666.67", "accumulated": "6000.03", "net_book_value": "73999.97"},
+      {"asset_id": "A-LIFE-003", "period": "2023-10", "amount": "666.67", "accumulated": "6666.70", "net_book_value": "73333.30"},
+      {"asset_id": "A-LIFE-003", "period": "2023-11", "amount": "666.67", "accumulated": "7333.37", "net_book_value": "72666.63"},
+      {"asset_id": "A-LIFE-003", "period": "2023-12", "amount": "666.67", "accumulated": "8000.04", "net_book_value": "71999.96"},
+      {"asset_id": "A-LIFE-003", "period": "2024-01", "amount": "666.67", "accumulated": "8666.71", "net_book_value": "71333.29"},
+      {"asset_id": "A-LIFE-003", "period": "2024-02", "amount": "666.67", "accumulated": "9333.38", "net_book_value": "70666.62"},
+      {"asset_id": "A-LIFE-003", "period": "2024-03", "amount": "666.67", "accumulated": "10000.05", "net_book_value": "69999.95"},
+      {"asset_id": "A-LIFE-003", "period": "2024-04", "amount": "666.67", "accumulated": "10666.72", "net_book_value": "69333.28"},
+      {"asset_id": "A-LIFE-003", "period": "2024-05", "amount": "666.67", "accumulated": "11333.39", "net_book_value": "68666.61"},
+      {"asset_id": "A-LIFE-003", "period": "2024-06", "amount": "666.67", "accumulated": "12000.06", "net_book_value": "67999.94"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-06-30"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-LIFE-003",
+        "error_type": "DISPOSAL_WITHOUT_RETIREMENT",
+        "description": "Asset status is ACTIVE but disposal_date is set to 2024-03-15. An active asset should not have a disposal date. Either the asset was improperly reactivated after disposal, or the disposal date was erroneously recorded.",
+        "affected_asset_ids": ["A-LIFE-003"],
+        "affected_periods": ["2024-04", "2024-05", "2024-06"],
+        "magnitude": "2000.01"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-LIFE-003",
+        "error_type": "DISPOSAL_WITHOUT_RETIREMENT",
+        "affected_asset_ids": ["A-LIFE-003"],
+        "min_confidence": 0.85,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

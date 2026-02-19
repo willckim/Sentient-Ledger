@@ -1,0 +1,166 @@
+{
+  "scenario_id": "EDGE-001",
+  "name": "Penny rounding drift - wrong rounding in SL monthly amount",
+  "description": "Asset $100,000 cost, $3 salvage, 97 months, SL, FULL_MONTH. Depreciable base = $99,997. Correct monthly = $1,030.90 (99997/97 = 1030.8969... rounded to $1,030.90). Schedule erroneously uses $1,031.00/month (wrong rounding). Over 97 months: 97 x $1,031.00 = $100,007.00 vs base $99,997.00 = $10.00 overstatement. Over 12 shown periods: 12 x ($1,031.00 - $1,030.90) = $1.20 accumulated variance.",
+  "category": "EDGE",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "description": "Server Equipment - Penny Rounding Drift",
+        "acquisition_date": "2024-01-01",
+        "cost": "100000.00",
+        "salvage_value": "3.00",
+        "useful_life_months": 97,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-01",
+        "amount": "1031.00",
+        "accumulated": "1031.00",
+        "net_book_value": "98969.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-02",
+        "amount": "1031.00",
+        "accumulated": "2062.00",
+        "net_book_value": "97938.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-03",
+        "amount": "1031.00",
+        "accumulated": "3093.00",
+        "net_book_value": "96907.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-04",
+        "amount": "1031.00",
+        "accumulated": "4124.00",
+        "net_book_value": "95876.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-05",
+        "amount": "1031.00",
+        "accumulated": "5155.00",
+        "net_book_value": "94845.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-06",
+        "amount": "1031.00",
+        "accumulated": "6186.00",
+        "net_book_value": "93814.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-07",
+        "amount": "1031.00",
+        "accumulated": "7217.00",
+        "net_book_value": "92783.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-08",
+        "amount": "1031.00",
+        "accumulated": "8248.00",
+        "net_book_value": "91752.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-09",
+        "amount": "1031.00",
+        "accumulated": "9279.00",
+        "net_book_value": "90721.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-10",
+        "amount": "1031.00",
+        "accumulated": "10310.00",
+        "net_book_value": "89690.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-11",
+        "amount": "1031.00",
+        "accumulated": "11341.00",
+        "net_book_value": "88659.00"
+      },
+      {
+        "asset_id": "ASSET-EDGE-001",
+        "period": "2024-12",
+        "amount": "1031.00",
+        "accumulated": "12372.00",
+        "net_book_value": "87628.00"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-EDGE-001",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Monthly depreciation is $1,031.00 instead of correct $1,030.90 due to wrong rounding. Depreciable base $99,997 / 97 months = $1,030.8969 rounds to $1,030.90. Over full life: 97 x $1,031.00 = $100,007.00 vs base $99,997.00 = $10.00 overstatement.",
+        "affected_asset_ids": [
+          "ASSET-EDGE-001"
+        ],
+        "affected_periods": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2024-09",
+          "2024-10",
+          "2024-11",
+          "2024-12"
+        ],
+        "magnitude": "1.20"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-EDGE-001",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": [
+          "ASSET-EDGE-001"
+        ],
+        "min_confidence": 0.85,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": [
+      {
+        "error_id": "ERR-EDGE-001",
+        "expected_trigger_reason": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "expected_self_healable": true
+      }
+    ]
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

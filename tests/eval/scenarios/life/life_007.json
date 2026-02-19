@@ -1,0 +1,119 @@
+{
+  "scenario_id": "LIFE-007",
+  "name": "Fully depreciated with nonzero NBV - under-depreciated asset",
+  "description": "Asset $100,000, $0 salvage, 60 months, SL, FULL_MONTH, acquired 2019-01-01. Status=FULLY_DEPRECIATED. Schedule shows 60 entries at $1,333.33 each (total $80,000). Last NBV=$20,000 but status says FULLY_DEPRECIATED. Asset should have $0 NBV.",
+  "category": "LIFE",
+  "severity": "CRITICAL",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-LIFE-007",
+        "description": "HVAC System - Fully depreciated but nonzero NBV",
+        "acquisition_date": "2019-01-01",
+        "cost": "100000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 60,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "FULLY_DEPRECIATED",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-LIFE-007", "period": "2019-01", "amount": "1333.33", "accumulated": "1333.33", "net_book_value": "98666.67"},
+      {"asset_id": "A-LIFE-007", "period": "2019-02", "amount": "1333.33", "accumulated": "2666.66", "net_book_value": "97333.34"},
+      {"asset_id": "A-LIFE-007", "period": "2019-03", "amount": "1333.33", "accumulated": "3999.99", "net_book_value": "96000.01"},
+      {"asset_id": "A-LIFE-007", "period": "2019-04", "amount": "1333.33", "accumulated": "5333.32", "net_book_value": "94666.68"},
+      {"asset_id": "A-LIFE-007", "period": "2019-05", "amount": "1333.33", "accumulated": "6666.65", "net_book_value": "93333.35"},
+      {"asset_id": "A-LIFE-007", "period": "2019-06", "amount": "1333.33", "accumulated": "7999.98", "net_book_value": "92000.02"},
+      {"asset_id": "A-LIFE-007", "period": "2019-07", "amount": "1333.33", "accumulated": "9333.31", "net_book_value": "90666.69"},
+      {"asset_id": "A-LIFE-007", "period": "2019-08", "amount": "1333.33", "accumulated": "10666.64", "net_book_value": "89333.36"},
+      {"asset_id": "A-LIFE-007", "period": "2019-09", "amount": "1333.33", "accumulated": "11999.97", "net_book_value": "88000.03"},
+      {"asset_id": "A-LIFE-007", "period": "2019-10", "amount": "1333.33", "accumulated": "13333.30", "net_book_value": "86666.70"},
+      {"asset_id": "A-LIFE-007", "period": "2019-11", "amount": "1333.33", "accumulated": "14666.63", "net_book_value": "85333.37"},
+      {"asset_id": "A-LIFE-007", "period": "2019-12", "amount": "1333.33", "accumulated": "15999.96", "net_book_value": "84000.04"},
+      {"asset_id": "A-LIFE-007", "period": "2020-01", "amount": "1333.33", "accumulated": "17333.29", "net_book_value": "82666.71"},
+      {"asset_id": "A-LIFE-007", "period": "2020-02", "amount": "1333.33", "accumulated": "18666.62", "net_book_value": "81333.38"},
+      {"asset_id": "A-LIFE-007", "period": "2020-03", "amount": "1333.33", "accumulated": "19999.95", "net_book_value": "80000.05"},
+      {"asset_id": "A-LIFE-007", "period": "2020-04", "amount": "1333.33", "accumulated": "21333.28", "net_book_value": "78666.72"},
+      {"asset_id": "A-LIFE-007", "period": "2020-05", "amount": "1333.33", "accumulated": "22666.61", "net_book_value": "77333.39"},
+      {"asset_id": "A-LIFE-007", "period": "2020-06", "amount": "1333.33", "accumulated": "23999.94", "net_book_value": "76000.06"},
+      {"asset_id": "A-LIFE-007", "period": "2020-07", "amount": "1333.33", "accumulated": "25333.27", "net_book_value": "74666.73"},
+      {"asset_id": "A-LIFE-007", "period": "2020-08", "amount": "1333.33", "accumulated": "26666.60", "net_book_value": "73333.40"},
+      {"asset_id": "A-LIFE-007", "period": "2020-09", "amount": "1333.33", "accumulated": "27999.93", "net_book_value": "72000.07"},
+      {"asset_id": "A-LIFE-007", "period": "2020-10", "amount": "1333.33", "accumulated": "29333.26", "net_book_value": "70666.74"},
+      {"asset_id": "A-LIFE-007", "period": "2020-11", "amount": "1333.33", "accumulated": "30666.59", "net_book_value": "69333.41"},
+      {"asset_id": "A-LIFE-007", "period": "2020-12", "amount": "1333.33", "accumulated": "31999.92", "net_book_value": "68000.08"},
+      {"asset_id": "A-LIFE-007", "period": "2021-01", "amount": "1333.33", "accumulated": "33333.25", "net_book_value": "66666.75"},
+      {"asset_id": "A-LIFE-007", "period": "2021-02", "amount": "1333.33", "accumulated": "34666.58", "net_book_value": "65333.42"},
+      {"asset_id": "A-LIFE-007", "period": "2021-03", "amount": "1333.33", "accumulated": "35999.91", "net_book_value": "64000.09"},
+      {"asset_id": "A-LIFE-007", "period": "2021-04", "amount": "1333.33", "accumulated": "37333.24", "net_book_value": "62666.76"},
+      {"asset_id": "A-LIFE-007", "period": "2021-05", "amount": "1333.33", "accumulated": "38666.57", "net_book_value": "61333.43"},
+      {"asset_id": "A-LIFE-007", "period": "2021-06", "amount": "1333.33", "accumulated": "39999.90", "net_book_value": "60000.10"},
+      {"asset_id": "A-LIFE-007", "period": "2021-07", "amount": "1333.33", "accumulated": "41333.23", "net_book_value": "58666.77"},
+      {"asset_id": "A-LIFE-007", "period": "2021-08", "amount": "1333.33", "accumulated": "42666.56", "net_book_value": "57333.44"},
+      {"asset_id": "A-LIFE-007", "period": "2021-09", "amount": "1333.33", "accumulated": "43999.89", "net_book_value": "56000.11"},
+      {"asset_id": "A-LIFE-007", "period": "2021-10", "amount": "1333.33", "accumulated": "45333.22", "net_book_value": "54666.78"},
+      {"asset_id": "A-LIFE-007", "period": "2021-11", "amount": "1333.33", "accumulated": "46666.55", "net_book_value": "53333.45"},
+      {"asset_id": "A-LIFE-007", "period": "2021-12", "amount": "1333.33", "accumulated": "47999.88", "net_book_value": "52000.12"},
+      {"asset_id": "A-LIFE-007", "period": "2022-01", "amount": "1333.33", "accumulated": "49333.21", "net_book_value": "50666.79"},
+      {"asset_id": "A-LIFE-007", "period": "2022-02", "amount": "1333.33", "accumulated": "50666.54", "net_book_value": "49333.46"},
+      {"asset_id": "A-LIFE-007", "period": "2022-03", "amount": "1333.33", "accumulated": "51999.87", "net_book_value": "48000.13"},
+      {"asset_id": "A-LIFE-007", "period": "2022-04", "amount": "1333.33", "accumulated": "53333.20", "net_book_value": "46666.80"},
+      {"asset_id": "A-LIFE-007", "period": "2022-05", "amount": "1333.33", "accumulated": "54666.53", "net_book_value": "45333.47"},
+      {"asset_id": "A-LIFE-007", "period": "2022-06", "amount": "1333.33", "accumulated": "55999.86", "net_book_value": "44000.14"},
+      {"asset_id": "A-LIFE-007", "period": "2022-07", "amount": "1333.33", "accumulated": "57333.19", "net_book_value": "42666.81"},
+      {"asset_id": "A-LIFE-007", "period": "2022-08", "amount": "1333.33", "accumulated": "58666.52", "net_book_value": "41333.48"},
+      {"asset_id": "A-LIFE-007", "period": "2022-09", "amount": "1333.33", "accumulated": "59999.85", "net_book_value": "40000.15"},
+      {"asset_id": "A-LIFE-007", "period": "2022-10", "amount": "1333.33", "accumulated": "61333.18", "net_book_value": "38666.82"},
+      {"asset_id": "A-LIFE-007", "period": "2022-11", "amount": "1333.33", "accumulated": "62666.51", "net_book_value": "37333.49"},
+      {"asset_id": "A-LIFE-007", "period": "2022-12", "amount": "1333.33", "accumulated": "63999.84", "net_book_value": "36000.16"},
+      {"asset_id": "A-LIFE-007", "period": "2023-01", "amount": "1333.33", "accumulated": "65333.17", "net_book_value": "34666.83"},
+      {"asset_id": "A-LIFE-007", "period": "2023-02", "amount": "1333.33", "accumulated": "66666.50", "net_book_value": "33333.50"},
+      {"asset_id": "A-LIFE-007", "period": "2023-03", "amount": "1333.33", "accumulated": "67999.83", "net_book_value": "32000.17"},
+      {"asset_id": "A-LIFE-007", "period": "2023-04", "amount": "1333.33", "accumulated": "69333.16", "net_book_value": "30666.84"},
+      {"asset_id": "A-LIFE-007", "period": "2023-05", "amount": "1333.33", "accumulated": "70666.49", "net_book_value": "29333.51"},
+      {"asset_id": "A-LIFE-007", "period": "2023-06", "amount": "1333.33", "accumulated": "71999.82", "net_book_value": "28000.18"},
+      {"asset_id": "A-LIFE-007", "period": "2023-07", "amount": "1333.33", "accumulated": "73333.15", "net_book_value": "26666.85"},
+      {"asset_id": "A-LIFE-007", "period": "2023-08", "amount": "1333.33", "accumulated": "74666.48", "net_book_value": "25333.52"},
+      {"asset_id": "A-LIFE-007", "period": "2023-09", "amount": "1333.33", "accumulated": "75999.81", "net_book_value": "24000.19"},
+      {"asset_id": "A-LIFE-007", "period": "2023-10", "amount": "1333.33", "accumulated": "77333.14", "net_book_value": "22666.86"},
+      {"asset_id": "A-LIFE-007", "period": "2023-11", "amount": "1333.33", "accumulated": "78666.47", "net_book_value": "21333.53"},
+      {"asset_id": "A-LIFE-007", "period": "2023-12", "amount": "1333.33", "accumulated": "79999.80", "net_book_value": "20000.20"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2023-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-LIFE-007",
+        "error_type": "IMPAIRMENT_INDICATOR_DETECTED",
+        "description": "Asset status is FULLY_DEPRECIATED but NBV is $20,000.20 (above salvage value of $0). 60 entries at $1,333.33 total only $79,999.80 instead of the required $100,000 depreciable base. Asset is under-depreciated by $20,000.20.",
+        "affected_asset_ids": ["A-LIFE-007"],
+        "affected_periods": ["2019-01", "2019-02", "2019-03", "2019-04", "2019-05", "2019-06", "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12", "2020-01", "2020-02", "2020-03", "2020-04", "2020-05", "2020-06", "2020-07", "2020-08", "2020-09", "2020-10", "2020-11", "2020-12", "2021-01", "2021-02", "2021-03", "2021-04", "2021-05", "2021-06", "2021-07", "2021-08", "2021-09", "2021-10", "2021-11", "2021-12", "2022-01", "2022-02", "2022-03", "2022-04", "2022-05", "2022-06", "2022-07", "2022-08", "2022-09", "2022-10", "2022-11", "2022-12", "2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12"],
+        "magnitude": "20000.20"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-LIFE-007",
+        "error_type": "IMPAIRMENT_INDICATOR_DETECTED",
+        "affected_asset_ids": ["A-LIFE-007"],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

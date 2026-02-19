@@ -1,0 +1,81 @@
+{
+  "scenario_id": "MULT-001",
+  "name": "Cross-entity rate mismatch - legitimate different useful lives",
+  "description": "Two entities have the same type of asset but different depreciation rates due to different useful lives. Entity ENTITY-001 has asset A-MULT-001a ($100,000, 120 months SL = $833.33/mo). Entity ENTITY-002 has asset A-MULT-001b ($100,000, 60 months SL = $1,666.67/mo). Both schedules are correct. Clean scenario with no injected errors.",
+  "category": "MULT",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-MULT-001a",
+        "description": "Office Equipment - Entity 1 Long Life",
+        "acquisition_date": "2024-01-01",
+        "cost": "100000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      },
+      {
+        "asset_id": "A-MULT-001b",
+        "description": "Office Equipment - Entity 2 Short Life",
+        "acquisition_date": "2024-01-01",
+        "cost": "100000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 60,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-002",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-MULT-001a", "period": "2024-01", "amount": "833.33", "accumulated": "833.33", "net_book_value": "99166.67"},
+      {"asset_id": "A-MULT-001a", "period": "2024-02", "amount": "833.33", "accumulated": "1666.66", "net_book_value": "98333.34"},
+      {"asset_id": "A-MULT-001a", "period": "2024-03", "amount": "833.33", "accumulated": "2499.99", "net_book_value": "97500.01"},
+      {"asset_id": "A-MULT-001a", "period": "2024-04", "amount": "833.33", "accumulated": "3333.32", "net_book_value": "96666.68"},
+      {"asset_id": "A-MULT-001a", "period": "2024-05", "amount": "833.33", "accumulated": "4166.65", "net_book_value": "95833.35"},
+      {"asset_id": "A-MULT-001a", "period": "2024-06", "amount": "833.33", "accumulated": "4999.98", "net_book_value": "95000.02"},
+      {"asset_id": "A-MULT-001a", "period": "2024-07", "amount": "833.33", "accumulated": "5833.31", "net_book_value": "94166.69"},
+      {"asset_id": "A-MULT-001a", "period": "2024-08", "amount": "833.33", "accumulated": "6666.64", "net_book_value": "93333.36"},
+      {"asset_id": "A-MULT-001a", "period": "2024-09", "amount": "833.33", "accumulated": "7499.97", "net_book_value": "92500.03"},
+      {"asset_id": "A-MULT-001a", "period": "2024-10", "amount": "833.33", "accumulated": "8333.30", "net_book_value": "91666.70"},
+      {"asset_id": "A-MULT-001a", "period": "2024-11", "amount": "833.33", "accumulated": "9166.63", "net_book_value": "90833.37"},
+      {"asset_id": "A-MULT-001a", "period": "2024-12", "amount": "833.33", "accumulated": "9999.96", "net_book_value": "90000.04"},
+      {"asset_id": "A-MULT-001b", "period": "2024-01", "amount": "1666.67", "accumulated": "1666.67", "net_book_value": "98333.33"},
+      {"asset_id": "A-MULT-001b", "period": "2024-02", "amount": "1666.67", "accumulated": "3333.34", "net_book_value": "96666.66"},
+      {"asset_id": "A-MULT-001b", "period": "2024-03", "amount": "1666.67", "accumulated": "5000.01", "net_book_value": "94999.99"},
+      {"asset_id": "A-MULT-001b", "period": "2024-04", "amount": "1666.67", "accumulated": "6666.68", "net_book_value": "93333.32"},
+      {"asset_id": "A-MULT-001b", "period": "2024-05", "amount": "1666.67", "accumulated": "8333.35", "net_book_value": "91666.65"},
+      {"asset_id": "A-MULT-001b", "period": "2024-06", "amount": "1666.67", "accumulated": "10000.02", "net_book_value": "89999.98"},
+      {"asset_id": "A-MULT-001b", "period": "2024-07", "amount": "1666.67", "accumulated": "11666.69", "net_book_value": "88333.31"},
+      {"asset_id": "A-MULT-001b", "period": "2024-08", "amount": "1666.67", "accumulated": "13333.36", "net_book_value": "86666.64"},
+      {"asset_id": "A-MULT-001b", "period": "2024-09", "amount": "1666.67", "accumulated": "15000.03", "net_book_value": "84999.97"},
+      {"asset_id": "A-MULT-001b", "period": "2024-10", "amount": "1666.67", "accumulated": "16666.70", "net_book_value": "83333.30"},
+      {"asset_id": "A-MULT-001b", "period": "2024-11", "amount": "1666.67", "accumulated": "18333.37", "net_book_value": "81666.63"},
+      {"asset_id": "A-MULT-001b", "period": "2024-12", "amount": "1666.67", "accumulated": "20000.04", "net_book_value": "79999.96"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [],
+    "expected_detections": [],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

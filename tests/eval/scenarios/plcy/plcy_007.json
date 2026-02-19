@@ -1,0 +1,74 @@
+{
+  "scenario_id": "PLCY-007",
+  "name": "Residual value percentage error - salvage value ignored",
+  "description": "Asset $200,000 with $20,000 salvage (10%), 120 months, SL. Correct depreciable base = $180,000, monthly = $1,500. Schedule ignores salvage entirely and uses $200,000/120 = $1,666.67/month, overstating depreciation by $166.67/month.",
+  "category": "PLCY",
+  "severity": "MEDIUM",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-PLCY-007",
+        "description": "Heavy Equipment - Residual Value Percentage Misapplied",
+        "acquisition_date": "2024-01-01",
+        "cost": "200000.00",
+        "salvage_value": "20000.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-PLCY-007", "period": "2024-01", "amount": "1666.67", "accumulated": "1666.67", "net_book_value": "198333.33"},
+      {"asset_id": "A-PLCY-007", "period": "2024-02", "amount": "1666.67", "accumulated": "3333.34", "net_book_value": "196666.66"},
+      {"asset_id": "A-PLCY-007", "period": "2024-03", "amount": "1666.67", "accumulated": "5000.01", "net_book_value": "194999.99"},
+      {"asset_id": "A-PLCY-007", "period": "2024-04", "amount": "1666.67", "accumulated": "6666.68", "net_book_value": "193333.32"},
+      {"asset_id": "A-PLCY-007", "period": "2024-05", "amount": "1666.67", "accumulated": "8333.35", "net_book_value": "191666.65"},
+      {"asset_id": "A-PLCY-007", "period": "2024-06", "amount": "1666.67", "accumulated": "10000.02", "net_book_value": "189999.98"},
+      {"asset_id": "A-PLCY-007", "period": "2024-07", "amount": "1666.67", "accumulated": "11666.69", "net_book_value": "188333.31"},
+      {"asset_id": "A-PLCY-007", "period": "2024-08", "amount": "1666.67", "accumulated": "13333.36", "net_book_value": "186666.64"},
+      {"asset_id": "A-PLCY-007", "period": "2024-09", "amount": "1666.67", "accumulated": "15000.03", "net_book_value": "184999.97"},
+      {"asset_id": "A-PLCY-007", "period": "2024-10", "amount": "1666.67", "accumulated": "16666.70", "net_book_value": "183333.30"},
+      {"asset_id": "A-PLCY-007", "period": "2024-11", "amount": "1666.67", "accumulated": "18333.37", "net_book_value": "181666.63"},
+      {"asset_id": "A-PLCY-007", "period": "2024-12", "amount": "1666.67", "accumulated": "20000.04", "net_book_value": "179999.96"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-PLCY-007",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Salvage value of $20,000 (10% of cost) is ignored in depreciation calculation. Schedule uses full cost of $200,000 as depreciable base instead of $180,000 (cost minus salvage). Monthly depreciation is $1,666.67 instead of correct $1,500, overstating by $166.67/month ($2,000.04 over 12 periods).",
+        "affected_asset_ids": ["A-PLCY-007"],
+        "affected_periods": [
+          "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06",
+          "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"
+        ],
+        "magnitude": "2000.04"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-PLCY-007",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": ["A-PLCY-007"],
+        "min_confidence": 0.75,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

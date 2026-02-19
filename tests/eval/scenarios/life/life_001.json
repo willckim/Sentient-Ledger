@@ -1,0 +1,83 @@
+{
+  "scenario_id": "LIFE-001",
+  "name": "Disposed asset still depreciating after disposal date",
+  "description": "Asset $120,000, $0 salvage, 120 months, SL, FULL_MONTH. Disposed 2024-06-15 but schedule continues through 2024-12 with 6 entries after disposal. Monthly = $1,000. 24 total entries from 2023-01 through 2024-12.",
+  "category": "LIFE",
+  "severity": "CRITICAL",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-LIFE-001",
+        "description": "Office Furniture - Disposed but still depreciating",
+        "acquisition_date": "2023-01-01",
+        "cost": "120000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "DISPOSED",
+        "disposal_date": "2024-06-15",
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-LIFE-001", "period": "2023-01", "amount": "1000.00", "accumulated": "1000.00", "net_book_value": "119000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-02", "amount": "1000.00", "accumulated": "2000.00", "net_book_value": "118000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-03", "amount": "1000.00", "accumulated": "3000.00", "net_book_value": "117000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-04", "amount": "1000.00", "accumulated": "4000.00", "net_book_value": "116000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-05", "amount": "1000.00", "accumulated": "5000.00", "net_book_value": "115000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-06", "amount": "1000.00", "accumulated": "6000.00", "net_book_value": "114000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-07", "amount": "1000.00", "accumulated": "7000.00", "net_book_value": "113000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-08", "amount": "1000.00", "accumulated": "8000.00", "net_book_value": "112000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-09", "amount": "1000.00", "accumulated": "9000.00", "net_book_value": "111000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-10", "amount": "1000.00", "accumulated": "10000.00", "net_book_value": "110000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-11", "amount": "1000.00", "accumulated": "11000.00", "net_book_value": "109000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2023-12", "amount": "1000.00", "accumulated": "12000.00", "net_book_value": "108000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-01", "amount": "1000.00", "accumulated": "13000.00", "net_book_value": "107000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-02", "amount": "1000.00", "accumulated": "14000.00", "net_book_value": "106000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-03", "amount": "1000.00", "accumulated": "15000.00", "net_book_value": "105000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-04", "amount": "1000.00", "accumulated": "16000.00", "net_book_value": "104000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-05", "amount": "1000.00", "accumulated": "17000.00", "net_book_value": "103000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-06", "amount": "1000.00", "accumulated": "18000.00", "net_book_value": "102000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-07", "amount": "1000.00", "accumulated": "19000.00", "net_book_value": "101000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-08", "amount": "1000.00", "accumulated": "20000.00", "net_book_value": "100000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-09", "amount": "1000.00", "accumulated": "21000.00", "net_book_value": "99000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-10", "amount": "1000.00", "accumulated": "22000.00", "net_book_value": "98000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-11", "amount": "1000.00", "accumulated": "23000.00", "net_book_value": "97000.00"},
+      {"asset_id": "A-LIFE-001", "period": "2024-12", "amount": "1000.00", "accumulated": "24000.00", "net_book_value": "96000.00"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-LIFE-001",
+        "error_type": "DISPOSAL_WITHOUT_RETIREMENT",
+        "description": "Asset disposed on 2024-06-15 but depreciation continues through 2024-12. Six entries recorded after disposal date (2024-07 through 2024-12) totaling $6,000 in erroneous depreciation.",
+        "affected_asset_ids": ["A-LIFE-001"],
+        "affected_periods": ["2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"],
+        "magnitude": "6000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-LIFE-001",
+        "error_type": "DISPOSAL_WITHOUT_RETIREMENT",
+        "affected_asset_ids": ["A-LIFE-001"],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

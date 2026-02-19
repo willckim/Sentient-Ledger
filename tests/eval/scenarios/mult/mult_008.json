@@ -1,0 +1,79 @@
+{
+  "scenario_id": "MULT-008",
+  "name": "Currency conversion error in GL - balance inflated by wrong exchange rate",
+  "description": "Entity ENTITY-001 has asset A-MULT-008: $100,000 (USD), $0 salvage, 120 months SL. Monthly depreciation = $833.33. 12 correct schedule entries for 2024. GL balance for depreciation account 5100 period 2024-12 shows $12,000 (as if converted from another currency at a wrong rate) instead of the correct $833.33 for the month. Detect as DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD via GL check.",
+  "category": "MULT",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-MULT-008",
+        "description": "IT Equipment - Currency Mismatch",
+        "acquisition_date": "2024-01-01",
+        "cost": "100000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-MULT-008", "period": "2024-01", "amount": "833.33", "accumulated": "833.33", "net_book_value": "99166.67"},
+      {"asset_id": "A-MULT-008", "period": "2024-02", "amount": "833.33", "accumulated": "1666.66", "net_book_value": "98333.34"},
+      {"asset_id": "A-MULT-008", "period": "2024-03", "amount": "833.33", "accumulated": "2499.99", "net_book_value": "97500.01"},
+      {"asset_id": "A-MULT-008", "period": "2024-04", "amount": "833.33", "accumulated": "3333.32", "net_book_value": "96666.68"},
+      {"asset_id": "A-MULT-008", "period": "2024-05", "amount": "833.33", "accumulated": "4166.65", "net_book_value": "95833.35"},
+      {"asset_id": "A-MULT-008", "period": "2024-06", "amount": "833.33", "accumulated": "4999.98", "net_book_value": "95000.02"},
+      {"asset_id": "A-MULT-008", "period": "2024-07", "amount": "833.33", "accumulated": "5833.31", "net_book_value": "94166.69"},
+      {"asset_id": "A-MULT-008", "period": "2024-08", "amount": "833.33", "accumulated": "6666.64", "net_book_value": "93333.36"},
+      {"asset_id": "A-MULT-008", "period": "2024-09", "amount": "833.33", "accumulated": "7499.97", "net_book_value": "92500.03"},
+      {"asset_id": "A-MULT-008", "period": "2024-10", "amount": "833.33", "accumulated": "8333.30", "net_book_value": "91666.70"},
+      {"asset_id": "A-MULT-008", "period": "2024-11", "amount": "833.33", "accumulated": "9166.63", "net_book_value": "90833.37"},
+      {"asset_id": "A-MULT-008", "period": "2024-12", "amount": "833.33", "accumulated": "9999.96", "net_book_value": "90000.04"}
+    ],
+    "gl_balances": [
+      {
+        "account_code": "5100",
+        "account_name": "Depreciation Expense",
+        "period": "2024-12",
+        "balance": "12000.00",
+        "entity_id": "ENTITY-001"
+      }
+    ],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-MULT-008",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "GL balance for ENTITY-001 account 5100 period 2024-12 shows $12,000 but schedule total for ENTITY-001 in that period is $833.33. The GL appears to have been converted at an incorrect exchange rate, overstating the balance by $11,166.67.",
+        "affected_asset_ids": ["A-MULT-008"],
+        "affected_periods": ["2024-12"],
+        "magnitude": "11166.67"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-MULT-008",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": ["A-MULT-008"],
+        "min_confidence": 0.8,
+        "pattern_id": null
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

@@ -1,0 +1,181 @@
+{
+  "scenario_id": "MULT-003",
+  "name": "Inter-entity transfer not updated - asset in two entities",
+  "description": "Asset A-MULT-003 appears in both ENTITY-001 and ENTITY-002 asset registers with same cost, salvage, useful life, and method. This represents an inter-entity transfer that was not properly completed, resulting in double-counting. $100,000 cost, $0 salvage, 120 months SL = $833.33/month. 12 schedule entries for 2024 under the single asset_id. Detect as RECLASSIFICATION_ANOMALY (asset claimed by multiple entities).",
+  "category": "MULT",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-MULT-003",
+        "description": "Vehicle - Entity 1 Original",
+        "acquisition_date": "2023-01-01",
+        "cost": "100000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "description": "Vehicle - Entity 2 Duplicate",
+        "acquisition_date": "2023-01-01",
+        "cost": "100000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-002",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-01",
+        "amount": "833.33",
+        "accumulated": "10833.29",
+        "net_book_value": "89166.71"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-02",
+        "amount": "833.33",
+        "accumulated": "11666.62",
+        "net_book_value": "88333.38"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-03",
+        "amount": "833.33",
+        "accumulated": "12499.95",
+        "net_book_value": "87500.05"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-04",
+        "amount": "833.33",
+        "accumulated": "13333.28",
+        "net_book_value": "86666.72"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-05",
+        "amount": "833.33",
+        "accumulated": "14166.61",
+        "net_book_value": "85833.39"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-06",
+        "amount": "833.33",
+        "accumulated": "14999.94",
+        "net_book_value": "85000.06"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-07",
+        "amount": "833.33",
+        "accumulated": "15833.27",
+        "net_book_value": "84166.73"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-08",
+        "amount": "833.33",
+        "accumulated": "16666.60",
+        "net_book_value": "83333.40"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-09",
+        "amount": "833.33",
+        "accumulated": "17499.93",
+        "net_book_value": "82500.07"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-10",
+        "amount": "833.33",
+        "accumulated": "18333.26",
+        "net_book_value": "81666.74"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-11",
+        "amount": "833.33",
+        "accumulated": "19166.59",
+        "net_book_value": "80833.41"
+      },
+      {
+        "asset_id": "A-MULT-003",
+        "period": "2024-12",
+        "amount": "833.33",
+        "accumulated": "19999.92",
+        "net_book_value": "80000.08"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-MULT-003",
+        "error_type": "RECLASSIFICATION_ANOMALY",
+        "description": "Asset A-MULT-003 is registered in both ENTITY-001 and ENTITY-002, indicating an inter-entity transfer that was not properly completed. The asset is being double-counted across entities.",
+        "affected_asset_ids": [
+          "A-MULT-003"
+        ],
+        "affected_periods": [],
+        "magnitude": null
+      },
+      {
+        "error_id": "ERR-MULT-003b",
+        "error_type": "MISSING_DEPRECIATION_ENTRY",
+        "description": "Missing 2023 periods due to double-counting",
+        "affected_asset_ids": [
+          "A-MULT-003"
+        ],
+        "affected_periods": [],
+        "magnitude": null
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-MULT-003",
+        "error_type": "RECLASSIFICATION_ANOMALY",
+        "affected_asset_ids": [
+          "A-MULT-003"
+        ],
+        "min_confidence": 0.9,
+        "pattern_id": null
+      },
+      {
+        "error_id": "ERR-MULT-003b",
+        "error_type": "MISSING_DEPRECIATION_ENTRY",
+        "affected_asset_ids": [
+          "A-MULT-003"
+        ],
+        "min_confidence": 0.5,
+        "pattern_id": "AW-002"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

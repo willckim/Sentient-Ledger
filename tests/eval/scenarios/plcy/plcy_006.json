@@ -1,0 +1,102 @@
+{
+  "scenario_id": "PLCY-006",
+  "name": "Group policy applied to individual asset - wrong useful life",
+  "description": "Individual asset has 36-month useful life but schedule uses 60-month group policy life. Asset $50,000, $5,000 salvage, 36 months, SL, FULL_MONTH, acquired 2024-01-01. Correct monthly = ($50,000 - $5,000)/36 = $1,250. Schedule uses 60-month group life: ($50,000 - $5,000)/60 = $750/mo. 36 entries at $750 produce total depreciation of $27,000 vs correct depreciable base of $45,000.",
+  "category": "PLCY",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-PLCY-006",
+        "description": "Specialized Tool - Group Policy Misapplied (36mo individual, 60mo group)",
+        "acquisition_date": "2024-01-01",
+        "cost": "50000.00",
+        "salvage_value": "5000.00",
+        "useful_life_months": 36,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-PLCY-006", "period": "2024-01", "amount": "750.00", "accumulated": "750.00", "net_book_value": "49250.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-02", "amount": "750.00", "accumulated": "1500.00", "net_book_value": "48500.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-03", "amount": "750.00", "accumulated": "2250.00", "net_book_value": "47750.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-04", "amount": "750.00", "accumulated": "3000.00", "net_book_value": "47000.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-05", "amount": "750.00", "accumulated": "3750.00", "net_book_value": "46250.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-06", "amount": "750.00", "accumulated": "4500.00", "net_book_value": "45500.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-07", "amount": "750.00", "accumulated": "5250.00", "net_book_value": "44750.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-08", "amount": "750.00", "accumulated": "6000.00", "net_book_value": "44000.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-09", "amount": "750.00", "accumulated": "6750.00", "net_book_value": "43250.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-10", "amount": "750.00", "accumulated": "7500.00", "net_book_value": "42500.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-11", "amount": "750.00", "accumulated": "8250.00", "net_book_value": "41750.00"},
+      {"asset_id": "A-PLCY-006", "period": "2024-12", "amount": "750.00", "accumulated": "9000.00", "net_book_value": "41000.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-01", "amount": "750.00", "accumulated": "9750.00", "net_book_value": "40250.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-02", "amount": "750.00", "accumulated": "10500.00", "net_book_value": "39500.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-03", "amount": "750.00", "accumulated": "11250.00", "net_book_value": "38750.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-04", "amount": "750.00", "accumulated": "12000.00", "net_book_value": "38000.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-05", "amount": "750.00", "accumulated": "12750.00", "net_book_value": "37250.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-06", "amount": "750.00", "accumulated": "13500.00", "net_book_value": "36500.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-07", "amount": "750.00", "accumulated": "14250.00", "net_book_value": "35750.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-08", "amount": "750.00", "accumulated": "15000.00", "net_book_value": "35000.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-09", "amount": "750.00", "accumulated": "15750.00", "net_book_value": "34250.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-10", "amount": "750.00", "accumulated": "16500.00", "net_book_value": "33500.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-11", "amount": "750.00", "accumulated": "17250.00", "net_book_value": "32750.00"},
+      {"asset_id": "A-PLCY-006", "period": "2025-12", "amount": "750.00", "accumulated": "18000.00", "net_book_value": "32000.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-01", "amount": "750.00", "accumulated": "18750.00", "net_book_value": "31250.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-02", "amount": "750.00", "accumulated": "19500.00", "net_book_value": "30500.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-03", "amount": "750.00", "accumulated": "20250.00", "net_book_value": "29750.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-04", "amount": "750.00", "accumulated": "21000.00", "net_book_value": "29000.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-05", "amount": "750.00", "accumulated": "21750.00", "net_book_value": "28250.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-06", "amount": "750.00", "accumulated": "22500.00", "net_book_value": "27500.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-07", "amount": "750.00", "accumulated": "23250.00", "net_book_value": "26750.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-08", "amount": "750.00", "accumulated": "24000.00", "net_book_value": "26000.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-09", "amount": "750.00", "accumulated": "24750.00", "net_book_value": "25250.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-10", "amount": "750.00", "accumulated": "25500.00", "net_book_value": "24500.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-11", "amount": "750.00", "accumulated": "26250.00", "net_book_value": "23750.00"},
+      {"asset_id": "A-PLCY-006", "period": "2026-12", "amount": "750.00", "accumulated": "27000.00", "net_book_value": "23000.00"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2026-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-PLCY-006",
+        "error_type": "USEFUL_LIFE_MISMATCH",
+        "description": "Group depreciation policy (60-month life) incorrectly applied to individual asset with 36-month useful life. Monthly depreciation is $750 instead of the correct $1,250, resulting in underdepreciation of $500/month. Over the full 36-month asset life, total depreciation is $27,000 vs correct $45,000, leaving $18,000 underdepreciated.",
+        "affected_asset_ids": ["A-PLCY-006"],
+        "affected_periods": [
+          "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06",
+          "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12",
+          "2025-01", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06",
+          "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12",
+          "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06",
+          "2026-07", "2026-08", "2026-09", "2026-10", "2026-11", "2026-12"
+        ],
+        "magnitude": "18000.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-PLCY-006",
+        "error_type": "USEFUL_LIFE_MISMATCH",
+        "affected_asset_ids": ["A-PLCY-006"],
+        "min_confidence": 0.8,
+        "pattern_id": "AW-003"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

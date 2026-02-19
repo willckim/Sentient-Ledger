@@ -1,0 +1,77 @@
+{
+  "scenario_id": "LIFE-004",
+  "name": "Impairment not reflected - depreciation at half the correct rate",
+  "description": "Asset $200,000, $0 salvage, 120 months, SL, FULL_MONTH, acquired 2023-01-01. Correct monthly = $1,666.67. Schedule erroneously uses $833.33/month (half rate), producing a significant variance. 18 entries from 2023-01 to 2024-06.",
+  "category": "LIFE",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-LIFE-004",
+        "description": "Building Improvements - Impairment not reflected",
+        "acquisition_date": "2023-01-01",
+        "cost": "200000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-LIFE-004", "period": "2023-01", "amount": "833.33", "accumulated": "833.33", "net_book_value": "199166.67"},
+      {"asset_id": "A-LIFE-004", "period": "2023-02", "amount": "833.33", "accumulated": "1666.66", "net_book_value": "198333.34"},
+      {"asset_id": "A-LIFE-004", "period": "2023-03", "amount": "833.33", "accumulated": "2499.99", "net_book_value": "197500.01"},
+      {"asset_id": "A-LIFE-004", "period": "2023-04", "amount": "833.33", "accumulated": "3333.32", "net_book_value": "196666.68"},
+      {"asset_id": "A-LIFE-004", "period": "2023-05", "amount": "833.33", "accumulated": "4166.65", "net_book_value": "195833.35"},
+      {"asset_id": "A-LIFE-004", "period": "2023-06", "amount": "833.33", "accumulated": "4999.98", "net_book_value": "195000.02"},
+      {"asset_id": "A-LIFE-004", "period": "2023-07", "amount": "833.33", "accumulated": "5833.31", "net_book_value": "194166.69"},
+      {"asset_id": "A-LIFE-004", "period": "2023-08", "amount": "833.33", "accumulated": "6666.64", "net_book_value": "193333.36"},
+      {"asset_id": "A-LIFE-004", "period": "2023-09", "amount": "833.33", "accumulated": "7499.97", "net_book_value": "192500.03"},
+      {"asset_id": "A-LIFE-004", "period": "2023-10", "amount": "833.33", "accumulated": "8333.30", "net_book_value": "191666.70"},
+      {"asset_id": "A-LIFE-004", "period": "2023-11", "amount": "833.33", "accumulated": "9166.63", "net_book_value": "190833.37"},
+      {"asset_id": "A-LIFE-004", "period": "2023-12", "amount": "833.33", "accumulated": "9999.96", "net_book_value": "190000.04"},
+      {"asset_id": "A-LIFE-004", "period": "2024-01", "amount": "833.33", "accumulated": "10833.29", "net_book_value": "189166.71"},
+      {"asset_id": "A-LIFE-004", "period": "2024-02", "amount": "833.33", "accumulated": "11666.62", "net_book_value": "188333.38"},
+      {"asset_id": "A-LIFE-004", "period": "2024-03", "amount": "833.33", "accumulated": "12499.95", "net_book_value": "187500.05"},
+      {"asset_id": "A-LIFE-004", "period": "2024-04", "amount": "833.33", "accumulated": "13333.28", "net_book_value": "186666.72"},
+      {"asset_id": "A-LIFE-004", "period": "2024-05", "amount": "833.33", "accumulated": "14166.61", "net_book_value": "185833.39"},
+      {"asset_id": "A-LIFE-004", "period": "2024-06", "amount": "833.33", "accumulated": "14999.94", "net_book_value": "185000.06"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-06-30"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-LIFE-004",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Monthly depreciation is $833.33 instead of correct $1,666.67 (50% understatement). Depreciable base $200,000 / 120 months = $1,666.67/month. Total variance over 18 periods is $15,000.12.",
+        "affected_asset_ids": ["A-LIFE-004"],
+        "affected_periods": ["2023-01", "2023-02", "2023-03", "2023-04", "2023-05", "2023-06", "2023-07", "2023-08", "2023-09", "2023-10", "2023-11", "2023-12", "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06"],
+        "magnitude": "15000.12"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-LIFE-004",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": ["A-LIFE-004"],
+        "min_confidence": 0.9,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

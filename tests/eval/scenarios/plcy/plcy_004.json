@@ -1,0 +1,71 @@
+{
+  "scenario_id": "PLCY-004",
+  "name": "Wrong convention - FULL_MONTH declared but HALF_YEAR applied",
+  "description": "Asset register declares FULL_MONTH convention but depreciation schedule applies HALF_YEAR first-period treatment. Asset $120,000, $0 salvage, 120 months, SL, acquired 2024-07-01. Under FULL_MONTH, first period depreciation = $1,000. Under HALF_YEAR convention, first period = $500. Schedule shows $500 for first period then $1,000 thereafter.",
+  "category": "PLCY",
+  "severity": "HIGH",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "A-PLCY-004",
+        "description": "Building Improvements - Convention Mismatch (FULL_MONTH declared, HALF_YEAR applied)",
+        "acquisition_date": "2024-07-01",
+        "cost": "120000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {"asset_id": "A-PLCY-004", "period": "2024-07", "amount": "500.00", "accumulated": "500.00", "net_book_value": "119500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2024-08", "amount": "1000.00", "accumulated": "1500.00", "net_book_value": "118500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2024-09", "amount": "1000.00", "accumulated": "2500.00", "net_book_value": "117500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2024-10", "amount": "1000.00", "accumulated": "3500.00", "net_book_value": "116500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2024-11", "amount": "1000.00", "accumulated": "4500.00", "net_book_value": "115500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2024-12", "amount": "1000.00", "accumulated": "5500.00", "net_book_value": "114500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2025-01", "amount": "1000.00", "accumulated": "6500.00", "net_book_value": "113500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2025-02", "amount": "1000.00", "accumulated": "7500.00", "net_book_value": "112500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2025-03", "amount": "1000.00", "accumulated": "8500.00", "net_book_value": "111500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2025-04", "amount": "1000.00", "accumulated": "9500.00", "net_book_value": "110500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2025-05", "amount": "1000.00", "accumulated": "10500.00", "net_book_value": "109500.00"},
+      {"asset_id": "A-PLCY-004", "period": "2025-06", "amount": "1000.00", "accumulated": "11500.00", "net_book_value": "108500.00"}
+    ],
+    "gl_balances": [],
+    "as_of_date": "2025-06-30"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-PLCY-004",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "First-period depreciation is $500 instead of $1,000 due to incorrect application of HALF_YEAR convention when FULL_MONTH is declared in the asset register. The HALF_YEAR convention halves the first month's depreciation, creating a $500 understatement in the first period.",
+        "affected_asset_ids": ["A-PLCY-004"],
+        "affected_periods": ["2024-07"],
+        "magnitude": "500.00"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-PLCY-004",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": ["A-PLCY-004"],
+        "min_confidence": 0.75,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": []
+  },
+  "eval_criteria": {
+    "min_recall": 0.98,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}

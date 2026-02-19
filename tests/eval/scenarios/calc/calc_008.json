@@ -1,0 +1,166 @@
+{
+  "scenario_id": "CALC-008",
+  "name": "Replacement cost used as depreciable base instead of historical cost",
+  "description": "Asset with original cost $150,000 (per asset register), $0 salvage, 120 months, SL. Correct monthly = $1,250. Schedule erroneously uses replacement cost $200,000 as base, yielding $1,666.67/month.",
+  "category": "CALC",
+  "severity": "CRITICAL",
+  "input": {
+    "asset_register": [
+      {
+        "asset_id": "ASSET-CALC-008",
+        "description": "HVAC System - Replacement Cost Error",
+        "acquisition_date": "2024-01-01",
+        "cost": "150000.00",
+        "salvage_value": "0.00",
+        "useful_life_months": 120,
+        "depreciation_method": "STRAIGHT_LINE",
+        "convention": "FULL_MONTH",
+        "status": "ACTIVE",
+        "disposal_date": null,
+        "disposal_proceeds": null,
+        "entity_id": "ENTITY-001",
+        "group": "PP&E"
+      }
+    ],
+    "depreciation_schedule": [
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-01",
+        "amount": "1666.67",
+        "accumulated": "1666.67",
+        "net_book_value": "148333.33"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-02",
+        "amount": "1666.67",
+        "accumulated": "3333.34",
+        "net_book_value": "146666.66"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-03",
+        "amount": "1666.67",
+        "accumulated": "5000.01",
+        "net_book_value": "144999.99"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-04",
+        "amount": "1666.67",
+        "accumulated": "6666.68",
+        "net_book_value": "143333.32"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-05",
+        "amount": "1666.67",
+        "accumulated": "8333.35",
+        "net_book_value": "141666.65"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-06",
+        "amount": "1666.67",
+        "accumulated": "10000.02",
+        "net_book_value": "139999.98"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-07",
+        "amount": "1666.67",
+        "accumulated": "11666.69",
+        "net_book_value": "138333.31"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-08",
+        "amount": "1666.67",
+        "accumulated": "13333.36",
+        "net_book_value": "136666.64"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-09",
+        "amount": "1666.67",
+        "accumulated": "15000.03",
+        "net_book_value": "134999.97"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-10",
+        "amount": "1666.67",
+        "accumulated": "16666.70",
+        "net_book_value": "133333.30"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-11",
+        "amount": "1666.67",
+        "accumulated": "18333.37",
+        "net_book_value": "131666.63"
+      },
+      {
+        "asset_id": "ASSET-CALC-008",
+        "period": "2024-12",
+        "amount": "1666.67",
+        "accumulated": "20000.04",
+        "net_book_value": "129999.96"
+      }
+    ],
+    "gl_balances": [],
+    "as_of_date": "2024-12-31"
+  },
+  "expected": {
+    "injected_errors": [
+      {
+        "error_id": "ERR-CALC-008",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "description": "Schedule uses replacement cost $200,000 as depreciable base instead of historical cost $150,000 from asset register. Monthly amount is $1,666.67 ($200,000/120) instead of correct $1,250.00 ($150,000/120). After 12 months, accumulated is $20,000.04 vs correct $15,000.00.",
+        "affected_asset_ids": [
+          "ASSET-CALC-008"
+        ],
+        "affected_periods": [
+          "2024-01",
+          "2024-02",
+          "2024-03",
+          "2024-04",
+          "2024-05",
+          "2024-06",
+          "2024-07",
+          "2024-08",
+          "2024-09",
+          "2024-10",
+          "2024-11",
+          "2024-12"
+        ],
+        "magnitude": "5000.04"
+      }
+    ],
+    "expected_detections": [
+      {
+        "error_id": "ERR-CALC-008",
+        "error_type": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "affected_asset_ids": [
+          "ASSET-CALC-008"
+        ],
+        "min_confidence": 0.95,
+        "pattern_id": "AW-001"
+      }
+    ],
+    "expected_corrections": [],
+    "expected_classifications": [
+      {
+        "error_id": "ERR-CALC-008",
+        "expected_trigger_reason": "DEPRECIATION_VARIANCE_EXCEEDS_THRESHOLD",
+        "expected_self_healable": true
+      }
+    ]
+  },
+  "eval_criteria": {
+    "min_recall": 1.0,
+    "min_precision": 0.95,
+    "max_correction_error": "1.00"
+  },
+  "metadata": {}
+}
