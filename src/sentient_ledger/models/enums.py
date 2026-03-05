@@ -135,3 +135,33 @@ class ScenarioCategory(str, Enum):
     LIFE = "LIFE"
     MULT = "MULT"
     EDGE = "EDGE"
+
+
+class TransactionType(str, Enum):
+    DEBIT = "DEBIT"
+    CREDIT = "CREDIT"
+
+
+class VendorCategory(str, Enum):
+    CC_MERCHANT_SETTLEMENT = "CC_MERCHANT_SETTLEMENT"
+    CC_MERCHANT_FEE = "CC_MERCHANT_FEE"
+    AMEX_SETTLEMENT = "AMEX_SETTLEMENT"
+    PAYMENT_PROCESSING = "PAYMENT_PROCESSING"
+    RETIREMENT_PLAN = "RETIREMENT_PLAN"
+    BANK_FEE = "BANK_FEE"
+    BANK_FEE_REBATE = "BANK_FEE_REBATE"
+    MISCELLANEOUS = "MISCELLANEOUS"
+    UNKNOWN = "UNKNOWN"
+
+
+class ReconciliationStatus(str, Enum):
+    PENDING = "PENDING"
+    RECONCILED = "RECONCILED"
+    STAGED = "STAGED"
+    EXPORTED = "EXPORTED"
+
+
+class BankRecWorkflow(str, Enum):
+    POST_NEW_LINES = "POST_NEW_LINES"
+    RECONCILE_GL = "RECONCILE_GL"
+    RECONCILE_AMEX = "RECONCILE_AMEX"
