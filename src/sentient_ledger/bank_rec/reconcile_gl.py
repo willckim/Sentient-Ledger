@@ -159,23 +159,32 @@ def reconcile_gl(
     return batch, validation_result, audit_records
 
 
+def _signed_amount(txn: BankTransaction) -> Decimal:
+    """Return signed amount for BC Bank Acc. Reconciliation.
+
+    BC convention: deposits (credits) are positive, withdrawals (debits) are negative.
+    """
+    from sentient_ledger.models.enums import TransactionType
+    return txn.amount if txn.transaction_type == TransactionType.CREDIT else -txn.amount
+
+
 def _write_output_csv(txns: list[BankTransaction], output_path) -> None:
-    """Write unreconciled transactions to a CSV for BC import."""
-    fieldnames = [
-        "posted_date", "value_date", "description",
-        "transaction_type", "amount", "balance",
-    ]
+    """Write unreconciled transactions in BC Bank Acc. Reconciliation format.
+
+    Output columns (exactly as BC's Import Bank Statement button expects):
+      Transaction Date | Description | Amount
+    Amount sign: positive = deposit/credit, negative = withdrawal/debit.
+    """
+    # BC column names — must match exactly for drag-and-drop import
+    fieldnames = ["Transaction Date", "Description", "Amount"]
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         for txn in txns:
             writer.writerow({
-                "posted_date": txn.posted_date,
-                "value_date": txn.value_date,
-                "description": txn.description,
-                "transaction_type": txn.transaction_type.value,
-                "amount": txn.amount,
-                "balance": txn.balance,
+                "Transaction Date": txn.posted_date.strftime("%m/%d/%Y"),
+                "Description": txn.description,
+                "Amount": _signed_amount(txn),
             })

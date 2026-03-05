@@ -82,3 +82,18 @@ class BankRecValidationResult(BaseModel):
     issues: list[BankRecValidationIssue] = Field(default_factory=list)
     error_count: int = 0
     warning_count: int = 0
+
+
+class CashReceiptJournalLine(BaseModel):
+    """One line in a BC Cash Receipt Journal import file (batch CCAMEX).
+
+    Field names and order match the exact columns BC expects.
+    """
+
+    posting_date: date
+    document_type: str = "Payment"
+    document_no: str
+    account_type: str = "G/L Account"
+    account_no: str
+    description: str
+    amount: Decimal  # positive = credit received; negative = debit/chargeback

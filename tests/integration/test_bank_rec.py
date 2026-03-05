@@ -97,7 +97,7 @@ class TestReconcileGLE2E:
         batch, validation, audits = reconcile_gl(
             bmo_csv_path=_fixture("bmo_download.csv"),
         )
-        # 5 rows have Bank Rec # 2750, 2 have 2751
+        # 5 rows have Bank Rec # 2750, 2 have none
         assert batch.reconciled_rows == 5
         assert batch.new_rows == 2
 
@@ -122,6 +122,149 @@ class TestReconcileGLE2E:
             assert out.exists()
         else:
             pytest.skip("No unreconciled rows in fixture — output not written")
+
+    def test_output_has_bc_bank_rec_columns(self, tmp_path):
+        """Output CSV must have exactly the columns BC Bank Acc. Reconciliation expects."""
+        import csv as _csv
+        from sentient_ledger.bank_rec import reconcile_gl
+
+        out = tmp_path / "bc_bank_rec.csv"
+        batch, _, _ = reconcile_gl(
+            bmo_csv_content=_read_fixture("bmo_download.csv"),
+            output_path=out,
+        )
+        if not out.exists():
+            pytest.skip("No unreconciled rows — file not written")
+        with open(out) as f:
+            headers = next(_csv.reader(f))
+        assert headers == ["Transaction Date", "Description", "Amount"]
+
+    def test_output_amount_signed_correctly(self, tmp_path):
+        """Credits are positive, debits are negative in the BC import file."""
+        import csv as _csv
+        from sentient_ledger.bank_rec import reconcile_gl
+
+        out = tmp_path / "signed.csv"
+        reconcile_gl(
+            bmo_csv_content=_read_fixture("bmo_download.csv"),
+            output_path=out,
+        )
+        if not out.exists():
+            pytest.skip("No unreconciled rows — file not written")
+        with open(out) as f:
+            rows = list(_csv.DictReader(f))
+        for row in rows:
+            # All unreconciled rows in bmo_download.csv are credits → positive
+            assert float(row["Amount"]) > 0
+
+
+class TestCashReceiptJournalE2E:
+    def test_full_pipeline_amex_to_bc_csv(self, tmp_path):
+        """reconcile_amex → export_cash_receipt_journal → BC-ready file."""
+        import csv as _csv
+        from sentient_ledger.bank_rec import export_cash_receipt_journal, reconcile_amex
+
+        batch, _ = reconcile_amex(
+            bmo_csv_path=_fixture("bmo_download.csv"),
+            cutoff_date=date(2026, 3, 5),
+        )
+        assert batch.transactions, "Expected AMEX transactions in fixture"
+
+        out = tmp_path / "ccamex.csv"
+        lines, audits = export_cash_receipt_journal(
+            transactions=batch.transactions,
+            account_no="11200",
+            output_path=out,
+        )
+        assert out.exists()
+        assert len(lines) == len(batch.transactions)
+
+    def test_bc_column_names_exact(self, tmp_path):
+        """Headers must exactly match BC Cash Receipt Journal import columns."""
+        import csv as _csv
+        from sentient_ledger.bank_rec import export_cash_receipt_journal, reconcile_amex
+
+        batch, _ = reconcile_amex(
+            bmo_csv_content=_read_fixture("bmo_download.csv"),
+            cutoff_date=date(2026, 3, 5),
+        )
+        out = tmp_path / "headers.csv"
+        export_cash_receipt_journal(
+            transactions=batch.transactions,
+            account_no="11200",
+            output_path=out,
+        )
+        if not out.exists():
+            pytest.skip("No AMEX rows in fixture")
+        with open(out) as f:
+            headers = next(_csv.reader(f))
+        assert headers == [
+            "Posting Date", "Document Type", "Document No.",
+            "Account Type", "Account No.", "Description", "Amount",
+        ]
+
+    def test_posting_date_is_mm_dd_yyyy(self, tmp_path):
+        """Posting Date must be MM/DD/YYYY — BC's expected date format."""
+        import csv as _csv
+        from sentient_ledger.bank_rec import export_cash_receipt_journal, reconcile_amex
+
+        batch, _ = reconcile_amex(
+            bmo_csv_content=_read_fixture("bmo_download.csv"),
+            cutoff_date=date(2026, 3, 5),
+        )
+        out = tmp_path / "dates.csv"
+        export_cash_receipt_journal(
+            transactions=batch.transactions,
+            account_no="11200",
+            output_path=out,
+        )
+        if not out.exists():
+            pytest.skip("No AMEX rows in fixture")
+        with open(out) as f:
+            rows = list(_csv.DictReader(f))
+        for row in rows:
+            parts = row["Posting Date"].split("/")
+            assert len(parts) == 3, f"Expected MM/DD/YYYY, got {row['Posting Date']}"
+            assert len(parts[0]) == 2  # zero-padded month
+            assert len(parts[1]) == 2  # zero-padded day
+
+    def test_credit_settlement_positive_amount(self, tmp_path):
+        """AMEX settlements (credits) must appear as positive amounts."""
+        import csv as _csv
+        from sentient_ledger.bank_rec import export_cash_receipt_journal, reconcile_amex
+
+        batch, _ = reconcile_amex(
+            bmo_csv_content=_read_fixture("bmo_download.csv"),
+            cutoff_date=date(2026, 3, 5),
+        )
+        out = tmp_path / "amounts.csv"
+        export_cash_receipt_journal(
+            transactions=batch.transactions,
+            account_no="11200",
+            output_path=out,
+        )
+        if not out.exists():
+            pytest.skip("No AMEX rows in fixture")
+        with open(out) as f:
+            rows = list(_csv.DictReader(f))
+        credits = [r for r in rows if float(r["Amount"]) > 0]
+        # The fixture has a CREDIT then a DEBIT AMEX row — at least one credit
+        assert credits
+
+    def test_audit_event_is_committed(self):
+        """Audit record event type must be COMMITTED for CJ exports."""
+        from sentient_ledger.bank_rec import export_cash_receipt_journal, reconcile_amex
+
+        batch, _ = reconcile_amex(
+            bmo_csv_content=_read_fixture("bmo_download.csv"),
+            cutoff_date=date(2026, 3, 5),
+        )
+        _, audits = export_cash_receipt_journal(
+            transactions=batch.transactions,
+            account_no="11200",
+        )
+        assert len(audits) == 1
+        assert audits[0]["event_type"] == "COMMITTED"
 
 
 class TestReconcileAmexE2E:
