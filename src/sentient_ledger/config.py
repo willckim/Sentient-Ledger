@@ -50,3 +50,48 @@ AUTHORITY_ESCALATION: dict[AuthorityLevel, AuthorityLevel] = {
 
 # Schema version
 SCHEMA_VERSION = "0.1.0"
+
+# ---------------------------------------------------------------------------
+# MCP Server configuration
+# ---------------------------------------------------------------------------
+
+# Default timeout for all MCP server tool calls (seconds)
+MCP_SERVER_TIMEOUT_SEC: float = 30.0
+MCP_MAX_RETRIES: int = 3
+
+# Business Central company identifiers
+BC_COMPANIES: dict[str, str] = {
+    "ortho": "Ortho Molecular Products",
+    "utzy": "Utzy Naturals",
+}
+
+# Default BC environment
+BC_ENVIRONMENT: str = "production"
+
+# SAP Concur pay group for Ortho expense reports
+CONCUR_PAY_GROUP: str = "OMPI-EXP"
+
+# US states that use combined filing (Avalara)
+AVALARA_COMBINED_FILING_STATES: frozenset[str] = frozenset(
+    {"HI", "IA", "MO", "NM", "OH", "SC", "TN", "UT", "WA"}
+)
+
+# Tango Card approved reward brands
+TANGO_APPROVED_BRANDS: frozenset[str] = frozenset(
+    {
+        "Amazon",
+        "Visa",
+        "Mastercard",
+        "Target",
+        "Walmart",
+        "Starbucks",
+        "Apple",
+        "Google Play",
+        "PayPal",
+        "Venmo",
+    }
+)
+
+# Network drive root paths (Windows → Mac fallback)
+FILE_SYSTEM_DRIVE_WINDOWS: str = r"N:\\"
+FILE_SYSTEM_DRIVE_MAC: str = "/Volumes/Network"
