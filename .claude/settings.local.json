@@ -14,7 +14,11 @@
       "mcp__ide__executeCode",
       "Bash(find:*)",
       "Bash(grep:*)",
-      "Bash(mkdir -p /c/Users/willi/sentient-ledger/src/sentient_ledger/mcp_servers && mkdir -p /c/Users/willi/sentient-ledger/tests/unit/mcp_servers && echo \"done\")"
+      "Bash(mkdir -p /c/Users/willi/sentient-ledger/src/sentient_ledger/mcp_servers && mkdir -p /c/Users/willi/sentient-ledger/tests/unit/mcp_servers && echo \"done\")",
+      "Read(//c/Users/willi/sentient-ledger/**)",
+      "Bash(git add:*)",
+      "Bash(docker build:*)",
+      "Bash(git:*)"
     ]
   }
 }
