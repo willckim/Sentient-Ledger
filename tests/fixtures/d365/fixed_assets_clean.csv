@@ -1,0 +1,4 @@
+AssetId,AssetGroup,Description,AcquisitionDate,AcquisitionCost,DepreciationMethod,ServiceLife,ServiceLifeUnit,SalvageValue,Convention,AccumulatedDepreciation,NetBookValue,Status
+FA-001,MACHINERY,CNC Machine,2024-01-15,500000.00,StraightLine,10,Years,50000.00,HalfMonth,90000.00,410000.00,Open
+FA-002,FURNITURE,Office Desk,2024-06-01,5000.00,StraightLine,5,Years,500.00,FullMonth,750.00,4250.00,Open
+FA-003,VEHICLES,Delivery Van,2023-03-01,45000.00,ReducingBalance,7,Years,5000.00,HalfYear,18000.00,27000.00,Open

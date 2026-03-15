@@ -1,0 +1,17 @@
+# Production dependencies — pinned from working venv (Python 3.10.11)
+# Install: pip install -r requirements.txt
+langgraph==1.0.8
+langgraph-checkpoint==4.0.0
+langgraph-sdk==0.3.6
+langchain-core==1.2.12
+langsmith==0.7.3
+pydantic==2.12.5
+pydantic-core==2.41.5
+fastapi==0.129.0
+python-multipart==0.0.22
+pandas==2.2.0
+openpyxl==3.1.2
+httpx==0.28.1
+mcp==1.26.0
+anyio==4.10.0
+starlette==0.52.1

@@ -24,6 +24,10 @@ logs/
 exports/
 reports/
 
+# --- Test fixtures (synthetic data only — safe to commit) ---
+!tests/fixtures/**/*.csv
+!tests/fixtures/**/*.xlsx
+
 # --- Secrets and credentials ---
 .env
 .env.*

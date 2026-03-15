@@ -1,0 +1,6 @@
+MainAccount,AccountName,BusinessUnit,Department,CostCenter,OpeningBalance,Debits,Credits,ClosingBalance,TransactionCurrency,ReportingCurrency,ExchangeRate,CalendarMonth
+110100,Cash - Operating,BU-001,FIN,CC-100,100000.00,50000.00,30000.00,120000.00,USD,USD,1.00,2026-01
+,Missing Account,BU-001,FIN,CC-100,5000.00,1000.00,500.00,5500.00,USD,USD,1.00,2026-01
+200100,AP with Bad Debits,BU-001,FIN,CC-100,50000.00,-500.00,25000.00,24500.00,USD,USD,1.00,2026-01
+300100,Equity Bad Currency,BU-001,FIN,CC-100,80000.00,5000.00,3000.00,82000.00,XYZ,USD,1.00,2026-01
+400100,Revenue - Services,BU-001,FIN,CC-100,0.00,0.00,75000.00,75000.00,USD,USD,1.00,2026-01
